@@ -48,20 +48,29 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: `一度に作れるのは${MAX_SLOTS_PER_REQUEST}枠までです` }, { status: 400 });
   }
 
-  const existing = await prisma.slot.findMany({
-    where: { startTime: { in: candidates }, status: { not: 'CANCELLED' } },
-    select: { startTime: true },
-  });
-  const taken = new Set(existing.map((s) => s.startTime.getTime()));
-  const toCreate = candidates.filter((start) => !taken.has(start.getTime()));
+  const durationMs = duration * 60 * 1000;
+  const sorted = [...candidates].sort((a, b) => a.getTime() - b.getTime());
+  const rangeStart = sorted[0];
+  const rangeEnd = new Date(sorted[sorted.length - 1].getTime() + durationMs);
 
-  const result = await prisma.slot.createMany({
-    data: toCreate.map((start) => ({
-      startTime: start,
-      endTime: new Date(start.getTime() + duration * 60 * 1000),
-      status: 'OPEN',
-    })),
+  // 既存の枠と、今回作る枠同士の両方で、時間が重なるものは作らない
+  const existing = await prisma.slot.findMany({
+    where: { status: { not: 'CANCELLED' }, startTime: { lt: rangeEnd }, endTime: { gt: rangeStart } },
+    select: { startTime: true, endTime: true },
   });
+  const occupied = existing.map((s) => ({ start: s.startTime.getTime(), end: s.endTime.getTime() }));
+  const overlaps = (start: number, end: number) => occupied.some((o) => start < o.end && end > o.start);
+
+  const toCreate: { startTime: Date; endTime: Date; status: string }[] = [];
+  for (const start of sorted) {
+    const s = start.getTime();
+    const e = s + durationMs;
+    if (overlaps(s, e)) continue;
+    occupied.push({ start: s, end: e });
+    toCreate.push({ startTime: start, endTime: new Date(e), status: 'OPEN' });
+  }
+
+  const result = await prisma.slot.createMany({ data: toCreate });
 
   return NextResponse.json({ created: result.count, skipped: candidates.length - toCreate.length });
 }

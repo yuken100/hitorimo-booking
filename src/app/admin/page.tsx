@@ -120,7 +120,7 @@ export default function AdminPage() {
       setMessage({ type: 'error', text: data.error || '作成できませんでした' });
       return;
     }
-    const skipped = data.skipped ? `（${data.skipped}枠はすでにあるため、作りませんでした）` : '';
+    const skipped = data.skipped ? `（${data.skipped}枠は、ほかの枠と時間が重なるため作りませんでした）` : '';
     setMessage({ type: 'ok', text: `${data.created}枠を作成しました${skipped}` });
     setTimes([]);
     loadSlots();
@@ -143,6 +143,30 @@ export default function AdminPage() {
       return;
     }
     setMessage({ type: 'ok', text: `${data.deleted}枠を削除しました` });
+    loadSlots();
+  };
+
+  const handleCancelBooking = async (booking: Booking, when: string) => {
+    if (
+      !window.confirm(
+        `${when} の ${booking.name} 様の予約を取り消します。\n枠は「空き」に戻ります。お客様へのメールは送られません。\nよろしいですか？`
+      )
+    )
+      return;
+    setBusy(true);
+    setMessage(null);
+    const res = await fetch('/api/admin/bookings', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: booking.id }),
+    });
+    const data = await res.json();
+    setBusy(false);
+    if (!res.ok) {
+      setMessage({ type: 'error', text: data.error || '取り消せませんでした' });
+      return;
+    }
+    setMessage({ type: 'ok', text: `${booking.name} 様の予約を取り消しました` });
     loadSlots();
   };
 
@@ -272,6 +296,10 @@ export default function AdminPage() {
           ))}
         </div>
 
+        <p className="text-xs text-muted mb-4">
+          選んだ時刻から、下の「1枠の長さ」の枠が作られます。ほかの枠と時間が重なる場合は、その枠は作られません。
+        </p>
+
         <label className="block text-sm font-bold text-ink mb-4">
           1枠の長さ
           <select
@@ -368,6 +396,14 @@ export default function AdminPage() {
                                 </a>
                               </p>
                               <p className="whitespace-pre-wrap text-muted">{booking.message}</p>
+                              <button
+                                type="button"
+                                onClick={() => handleCancelBooking(booking, `${date} ${jstTime(slot.startTime)}`)}
+                                disabled={busy}
+                                className="mt-2 px-3 py-1 text-sm font-bold rounded border-2 border-red-600 text-red-700 disabled:opacity-40"
+                              >
+                                この予約を取り消す
+                              </button>
                             </div>
                           )}
                         </div>
