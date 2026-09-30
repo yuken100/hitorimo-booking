@@ -166,6 +166,20 @@ export async function sendReminderEmail(data: BookingEmailData, dayLabel: '明�
   return sendEmail({ to: data.email, subject: `[HITORIMO] ${dayLabel}の初回相談のご案内（${when}）`, html });
 }
 
+// 管理画面のログイン用リンク（管理者へ）
+export async function sendAdminLoginLinkEmail(url: string, adminEmail: string) {
+  return sendEmail({
+    to: adminEmail,
+    subject: '[HITORIMO 管理] ログイン用のリンク',
+    html: layout(`
+      <h2 style="margin: 0 0 16px;">管理画面へのログイン</h2>
+      <p>下のボタンを押すと、管理画面にログインできます。このリンクは15分間、1回だけ使えます。</p>
+      ${button(url, '管理画面にログインする')}
+      <p style="margin: 16px 0 0; font-size: 13px; color: #666;">このメールに心当たりがない場合は、何もせずに破棄してください。リンクを押さなければ、誰もログインできません。</p>
+    `),
+  });
+}
+
 interface InquiryEmailData {
   name: string;
   email: string;

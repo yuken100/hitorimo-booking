@@ -54,6 +54,17 @@ model Booking {
   @@index([clientHash, createdAt])
 }
 
+// 管理画面のメールログイン用リンク（トークンはハッシュだけを保存）
+model AdminLoginToken {
+  id        String    @id @default(cuid())
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([createdAt])
+}
+
 // お問い合わせ（/contact から）
 model Inquiry {
   id              String   @id @default(cuid())

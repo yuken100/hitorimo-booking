@@ -168,6 +168,19 @@ export default function AdminPage() {
     }
   };
 
+  const handleSendLoginLink = async () => {
+    setBusy(true);
+    setMessage(null);
+    const res = await fetch('/api/admin/magic-link', { method: 'POST' });
+    const data = await res.json().catch(() => ({}));
+    setBusy(false);
+    setMessage(
+      res.ok
+        ? { type: 'ok', text: '管理者のメールアドレスに、ログイン用のリンクを送りました。メールを確認してください。' }
+        : { type: 'error', text: data.error || '送信できませんでした' }
+    );
+  };
+
   const handleLogout = async () => {
     await fetch('/api/admin/logout', { method: 'POST' });
     setAuthed(false);
@@ -279,8 +292,25 @@ export default function AdminPage() {
           >
             {busy ? '確認中...' : 'ログイン'}
           </button>
-          {message && <p className="text-red-600 text-sm">{message.text}</p>}
+          {message && (
+            <p className={`text-sm ${message.type === 'ok' ? 'text-green-800' : 'text-red-600'}`}>{message.text}</p>
+          )}
         </form>
+
+        <div className="mt-10 pt-6 border-t-2 border-ink">
+          <p className="text-sm font-bold text-ink mb-2">パスワードを忘れたとき</p>
+          <p className="text-sm text-muted mb-3">
+            管理者のメールアドレスに、ログイン用のリンクを送ります。リンクは15分間、1回だけ使えます。
+          </p>
+          <button
+            type="button"
+            onClick={handleSendLoginLink}
+            disabled={busy}
+            className="w-full px-4 py-3 bg-paper text-ink font-bold rounded border-2 border-ink disabled:opacity-50"
+          >
+            ログイン用のリンクをメールで受け取る
+          </button>
+        </div>
       </div>
     );
   }
