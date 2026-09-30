@@ -11,6 +11,16 @@ interface Booking {
   createdAt: string;
 }
 
+interface Inquiry {
+  id: string;
+  name: string;
+  email: string;
+  company: string | null;
+  message: string;
+  status: 'NEW' | 'DONE';
+  createdAt: string;
+}
+
 interface Slot {
   id: string;
   startTime: string;
@@ -45,7 +55,13 @@ const jstDateTime = (iso: string) =>
     minute: '2-digit',
   });
 
-function BookingDetails({ booking }: { booking: Booking }) {
+function BookingDetails({
+  booking,
+  messageLabel = 'ご相談内容',
+}: {
+  booking: Pick<Booking, 'name' | 'email' | 'company' | 'message' | 'createdAt'>;
+  messageLabel?: string;
+}) {
   return (
     <dl className="mt-3 grid grid-cols-[max-content_1fr] gap-x-4 gap-y-2 text-sm text-ink break-words">
       <dt className="font-bold text-muted">お名前</dt>
@@ -60,7 +76,7 @@ function BookingDetails({ booking }: { booking: Booking }) {
       </dd>
       <dt className="font-bold text-muted">受付日時</dt>
       <dd>{jstDateTime(booking.createdAt)}</dd>
-      <dt className="font-bold text-muted col-span-2">ご相談内容</dt>
+      <dt className="font-bold text-muted col-span-2">{messageLabel}</dt>
       <dd className="col-span-2 p-3 bg-soft border-2 border-ink rounded whitespace-pre-wrap text-base">
         {booking.message}
       </dd>
@@ -87,6 +103,7 @@ export default function AdminPage() {
   const [authed, setAuthed] = useState<boolean | null>(null);
   const [password, setPassword] = useState('');
   const [slots, setSlots] = useState<Slot[]>([]);
+  const [inquiries, setInquiries] = useState<Inquiry[]>([]);
   const [message, setMessage] = useState<{ type: 'ok' | 'error'; text: string } | null>(null);
   const [busy, setBusy] = useState(false);
 
@@ -106,6 +123,27 @@ export default function AdminPage() {
     setAuthed(true);
     setSlots(await res.json());
     setSelected([]);
+    loadInquiries();
+  };
+
+  const loadInquiries = async () => {
+    const res = await fetch('/api/admin/inquiries', { cache: 'no-store' });
+    if (res.ok) setInquiries(await res.json());
+  };
+
+  const setInquiryStatus = async (inquiry: Inquiry, status: Inquiry['status']) => {
+    setBusy(true);
+    const res = await fetch('/api/admin/inquiries', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: inquiry.id, status }),
+    });
+    setBusy(false);
+    if (!res.ok) {
+      setMessage({ type: 'error', text: '更新できませんでした' });
+      return;
+    }
+    setInquiries((prev) => prev.map((i) => (i.id === inquiry.id ? { ...i, status } : i)));
   };
 
   useEffect(() => {
@@ -298,6 +336,53 @@ export default function AdminPage() {
                     className="px-3 py-1 text-sm font-bold rounded border-2 border-red-600 text-red-700 disabled:opacity-40"
                   >
                     この予約を取り消す
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      {/* お問い合わせ */}
+      <section className="mb-12">
+        <h2 className="text-lg font-bold text-ink mb-4">
+          お問い合わせ（未対応 {inquiries.filter((i) => i.status === 'NEW').length}件）
+        </h2>
+        {inquiries.length === 0 ? (
+          <p className="text-muted">まだお問い合わせはありません。</p>
+        ) : (
+          <ul className="space-y-4">
+            {inquiries.map((inquiry) => (
+              <li
+                key={inquiry.id}
+                className={`p-4 border-2 rounded ${inquiry.status === 'NEW' ? 'border-ink' : 'border-muted opacity-60'}`}
+              >
+                <p className="font-bold text-ink">
+                  <span
+                    className={`mr-2 px-2 py-0.5 text-xs rounded ${
+                      inquiry.status === 'NEW' ? 'bg-accent text-ink' : 'bg-soft text-muted'
+                    }`}
+                  >
+                    {inquiry.status === 'NEW' ? '未対応' : '対応済み'}
+                  </span>
+                  {inquiry.name} 様
+                </p>
+                <BookingDetails booking={inquiry} messageLabel="お問い合わせ内容" />
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <a
+                    href={`mailto:${inquiry.email}`}
+                    className="px-3 py-1 text-sm font-bold rounded border-2 border-ink bg-accent text-ink"
+                  >
+                    メールを送る
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => setInquiryStatus(inquiry, inquiry.status === 'NEW' ? 'DONE' : 'NEW')}
+                    disabled={busy}
+                    className="px-3 py-1 text-sm font-bold rounded border-2 border-ink disabled:opacity-40"
+                  >
+                    {inquiry.status === 'NEW' ? '対応済みにする' : '未対応に戻す'}
                   </button>
                 </div>
               </li>

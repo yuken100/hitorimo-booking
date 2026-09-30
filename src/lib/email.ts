@@ -166,6 +166,47 @@ export async function sendReminderEmail(data: BookingEmailData, dayLabel: '明�
   return sendEmail({ to: data.email, subject: `[HITORIMO] ${dayLabel}の初回相談のご案内（${when}）`, html });
 }
 
+interface InquiryEmailData {
+  name: string;
+  email: string;
+  company?: string | null;
+  message: string;
+}
+
+// お問い合わせの自動返信（お客様へ）と、お問い合わせの通知（管理者へ）
+export async function sendInquiryEmails(data: InquiryEmailData, adminEmail: string | undefined) {
+  const customer = sendEmail({
+    to: data.email,
+    subject: '[HITORIMO] お問い合わせを受け付けました',
+    html: layout(`
+      <h2 style="margin: 0 0 16px;">お問い合わせを受け付けました</h2>
+      <p>${escapeHtml(data.name)} 様</p>
+      <p>HITORIMO にお問い合わせいただき、ありがとうございます。内容を確認のうえ、あらためてご連絡します。</p>
+      <p style="margin: 16px 0 0;"><strong>お問い合わせ内容：</strong></p>
+      <p style="margin: 0; white-space: pre-wrap;">${escapeHtml(data.message)}</p>
+    `),
+  });
+
+  const admin = adminEmail
+    ? sendEmail({
+        to: adminEmail,
+        subject: `[HITORIMO 管理] 新しいお問い合わせ（${data.name} 様）`,
+        html: layout(`
+          <h2 style="margin: 0 0 16px;">新しいお問い合わせがありました</h2>
+          <p style="margin: 0;"><strong>名前：</strong>${escapeHtml(data.name)}</p>
+          <p style="margin: 0;"><strong>メール：</strong>${escapeHtml(data.email)}</p>
+          ${data.company ? `<p style="margin: 0;"><strong>会社名：</strong>${escapeHtml(data.company)}</p>` : ''}
+          <p style="margin: 8px 0 0;"><strong>お問い合わせ内容：</strong></p>
+          <p style="margin: 0; white-space: pre-wrap;">${escapeHtml(data.message)}</p>
+          <p style="margin: 16px 0 0;">このメールに返信すると、お客様に届きます。</p>
+        `),
+        replyTo: data.email,
+      })
+    : Promise.resolve();
+
+  return Promise.all([customer, admin]);
+}
+
 // キャンセル受付（お客様へ）と、キャンセル通知（管理者へ）
 export async function sendCancellationEmails(data: BookingEmailData, adminEmail: string | undefined) {
   const when = formatJstRange(data.startTime, data.endTime);

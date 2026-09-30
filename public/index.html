@@ -924,15 +924,16 @@
           <span><span class="opt-t">初回相談（無料）を予約する</span><span class="opt-d">経営者・個人事業主の方へ。人材育成、リピート率、起業の悩みを伺います。</span></span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
-        <a class="opt" href="mailto:info@goodrelationship.net?subject=%E4%BB%B2%E9%96%93%E3%81%A8%E3%81%97%E3%81%A6%E9%96%A2%E3%82%8F%E3%82%8A%E3%81%9F%E3%81%84" data-cursor="入る">
+        <button class="opt" type="button" id="opt-join" aria-controls="option-note" aria-expanded="false" data-cursor="入る">
           <span><span class="opt-t">仲間として関わる</span><span class="opt-d">ビジョンに共感し、一緒に社会を創りたい方へ。</span></span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-        <a class="opt" href="mailto:info@goodrelationship.net?subject=%E3%83%A1%E3%83%BC%E3%83%AB%E3%81%A7%E3%81%AE%E3%81%94%E7%9B%B8%E8%AB%87" data-cursor="書く">
-          <span><span class="opt-t">メールで相談する</span><span class="opt-d">まずは文章で、気軽に相談したい方へ。info@goodrelationship.net</span></span>
+        </button>
+        <a class="opt" href="/contact" data-cursor="書く">
+          <span><span class="opt-t">メールで相談する</span><span class="opt-d">まずは文章で、気軽に相談したい方へ。</span></span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
       </div>
+      <p class="opt-note" id="option-note" role="status" hidden>仲間の募集は、ただいま準備中です。準備が整いしだい、このページでお知らせします。先にお話を聞いてみたい方は、<a href="/contact">お問い合わせページ</a>からお気軽にご連絡ください。</p>
     </div>
   </section>
 
@@ -993,7 +994,7 @@
         <a href="#founder">代表メッセージ</a>
         <a href="#faq">よくある質問</a>
       </nav>
-      <p class="foot-contact">お問い合わせ：<a href="mailto:info@goodrelationship.net">info@goodrelationship.net</a>　／　<a href="/privacy">プライバシーポリシー</a></p>
+      <p class="foot-contact"><a href="/contact">お問い合わせ</a>（<a href="mailto:info@goodrelationship.net">info@goodrelationship.net</a>）　／　<a href="/privacy">プライバシーポリシー</a></p>
     </div>
     <p class="foot-giant" aria-hidden="true">HITORIMO</p>
     <div class="foot-bottom">
@@ -1155,6 +1156,14 @@
   }
   roadMetrics();
   window.addEventListener('resize', roadMetrics);
+
+  // ---------- "Join us" option: show the coming-soon note ----------
+  var joinBtn = document.getElementById('opt-join');
+  var joinNote = document.getElementById('option-note');
+  joinBtn.addEventListener('click', function () {
+    joinNote.hidden = !joinNote.hidden;
+    joinBtn.setAttribute('aria-expanded', String(!joinNote.hidden));
+  });
 
   // ---------- FAQ audience tabs ----------
   var tabs = Array.prototype.slice.call(document.querySelectorAll('.faq-tab'));

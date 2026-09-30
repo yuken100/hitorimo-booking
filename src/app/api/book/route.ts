@@ -1,17 +1,11 @@
-import { createHmac, randomBytes } from 'crypto';
+import { randomBytes } from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { LEAD_MS } from '@/lib/config';
+import { EMAIL_RE, clientHashOf } from '@/lib/client';
 import { sendAdminNotificationEmail, sendBookingConfirmationEmail } from '@/lib/email';
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_BOOKINGS_PER_CLIENT_PER_HOUR = 3;
-
-// 通信元IPは、そのままでは保存しない
-function clientHashOf(request: NextRequest) {
-  const ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim() || request.ip || 'unknown';
-  return createHmac('sha256', process.env.CRON_SECRET || 'hitorimo').update(ip).digest('hex');
-}
 
 export async function POST(request: NextRequest) {
   try {
