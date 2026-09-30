@@ -72,7 +72,18 @@ export default function Home() {
 
   const selectedSlot = slots.find((s) => s.id === selectedSlotId);
   const selectedSlotTime = selectedSlot
-    ? new Date(selectedSlot.startTime).toLocaleString('ja-JP')
+    ? `${new Date(selectedSlot.startTime).toLocaleDateString('ja-JP', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        weekday: 'short',
+      })} ${new Date(selectedSlot.startTime).toLocaleTimeString('ja-JP', {
+        hour: 'numeric',
+        minute: '2-digit',
+      })}〜${new Date(selectedSlot.endTime).toLocaleTimeString('ja-JP', {
+        hour: 'numeric',
+        minute: '2-digit',
+      })}`
     : null;
 
   return (

@@ -8,8 +8,18 @@ interface EmailParams {
 }
 
 // サーバーは UTC で動くため、日本時間を明示する
-const formatJst = (date: Date) =>
-  date.toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' });
+const formatJstRange = (start: Date, end: Date) => {
+  const day = start.toLocaleDateString('ja-JP', {
+    timeZone: 'Asia/Tokyo',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    weekday: 'short',
+  });
+  const time = (d: Date) =>
+    d.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo', hour: 'numeric', minute: '2-digit' });
+  return `${day} ${time(start)}〜${time(end)}`;
+};
 
 const escapeHtml = (value: string) =>
   value
@@ -70,8 +80,7 @@ export async function sendBookingConfirmationEmail({
   endTime: Date;
   message: string;
 }) {
-  const formattedStart = formatJst(startTime);
-  const formattedEnd = formatJst(endTime);
+  const when = formatJstRange(startTime, endTime);
 
   const html = `
     <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
@@ -80,7 +89,7 @@ export async function sendBookingConfirmationEmail({
       <p>ご予約いただきありがとうございます。</p>
       <hr />
       <h3>予約内容</h3>
-      <p><strong>日時：</strong> ${formattedStart} ～ ${formattedEnd}</p>
+      <p><strong>日時：</strong> ${when}</p>
       <p><strong>ご相談内容：</strong></p>
       <p style="white-space: pre-wrap;">${escapeHtml(message)}</p>
       <hr />
@@ -116,8 +125,7 @@ export async function sendAdminNotificationEmail({
   message: string;
   adminEmail: string;
 }) {
-  const formattedStart = formatJst(startTime);
-  const formattedEnd = formatJst(endTime);
+  const when = formatJstRange(startTime, endTime);
 
   const html = `
     <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
@@ -127,7 +135,7 @@ export async function sendAdminNotificationEmail({
       <p><strong>メール：</strong> ${escapeHtml(email)}</p>
       ${company ? `<p><strong>会社名：</strong> ${escapeHtml(company)}</p>` : ''}
       <h3>予約内容</h3>
-      <p><strong>日時：</strong> ${formattedStart} ～ ${formattedEnd}</p>
+      <p><strong>日時：</strong> ${when}</p>
       <p><strong>相談内容：</strong></p>
       <p style="white-space: pre-wrap;">${escapeHtml(message)}</p>
     </div>
