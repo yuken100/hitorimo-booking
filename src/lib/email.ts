@@ -1,5 +1,5 @@
 // Resend REST API を直接使用してメール送信（SDK なし）
-import { MEETING_URL, LEAD_MS, cancelUrl } from './config';
+import { CONTACT_EMAIL, MEETING_URL, LEAD_MS, cancelUrl } from './config';
 import { formatJstDateTime, formatJstRange } from './time';
 import { buildIcs, googleCalendarUrl } from './calendar';
 
@@ -13,9 +13,11 @@ interface EmailParams {
   subject: string;
   html: string;
   attachments?: Attachment[];
+  replyTo?: string;
 }
 
-export async function sendEmail({ to, subject, html, attachments }: EmailParams) {
+// 返信先を指定しない場合は、問い合わせ窓口に届くようにする
+export async function sendEmail({ to, subject, html, attachments, replyTo = CONTACT_EMAIL }: EmailParams) {
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.EMAIL_FROM || 'noreply@goodrelationship.net';
 
@@ -29,7 +31,7 @@ export async function sendEmail({ to, subject, html, attachments }: EmailParams)
       'Content-Type': 'application/json',
       Authorization: `Bearer ${apiKey}`,
     },
-    body: JSON.stringify({ from: `HITORIMO <${from}>`, to, subject, html, attachments }),
+    body: JSON.stringify({ from: `HITORIMO <${from}>`, to, subject, html, attachments, reply_to: replyTo }),
   });
 
   if (!response.ok) {
@@ -55,7 +57,7 @@ const layout = (body: string) => `
     ${body}
     <hr style="border: none; border-top: 1px solid #ddd; margin: 32px 0 16px;" />
     <p style="color: #666; font-size: 12px;">
-      このメールは HITORIMO 予約システムから自動で送信しています。<br />
+      このメールは HITORIMO 予約システムから送信しています。ご不明な点は、このメールにそのまま返信してお問い合わせください（${CONTACT_EMAIL}）。<br />
       このメールに心当たりがない場合は、お手数ですが破棄してください。
     </p>
   </div>`;
@@ -73,7 +75,7 @@ const cancelBlock = (token: string, startTime: Date) => {
   const deadline = formatJstDateTime(new Date(startTime.getTime() - LEAD_MS));
   return `
   <h3 style="margin: 24px 0 8px;">キャンセルについて</h3>
-  <p style="margin: 0 0 8px;">ご都合が悪くなった場合は、<strong>${deadline}</strong> までに、下のボタンからキャンセルできます。それ以降は、このメールへの返信ではなく、お手数ですが別途ご連絡ください。</p>
+  <p style="margin: 0 0 8px;">ご都合が悪くなった場合は、<strong>${deadline}</strong> までに、下のボタンからキャンセルできます。それ以降は、お手数ですが、このメールに返信してご連絡ください。</p>
   ${button(cancelUrl(token), '予約をキャンセルする', false)}`;
 };
 
@@ -139,7 +141,12 @@ export async function sendAdminNotificationEmail(data: BookingEmailData, adminEm
     <p style="margin: 0; white-space: pre-wrap;">${escapeHtml(data.message)}</p>
   `);
 
-  return sendEmail({ to: adminEmail, subject: `[HITORIMO 管理] 新しい予約（${when}）`, html });
+  return sendEmail({
+    to: adminEmail,
+    subject: `[HITORIMO 管理] 新しい予約（${when}）`,
+    html,
+    replyTo: data.email,
+  });
 }
 
 // 前日（または当日朝）のリマインド（お客様へ）
@@ -185,6 +192,7 @@ export async function sendCancellationEmails(data: BookingEmailData, adminEmail:
           <p style="margin: 0;"><strong>メール：</strong>${escapeHtml(data.email)}</p>
           <p style="margin: 8px 0 0;">この枠は、予約ページで再び「空き」として表示されています。</p>
         `),
+        replyTo: data.email,
       })
     : Promise.resolve();
 

@@ -92,7 +92,11 @@ function CancelContent() {
         </>
       ) : (
         <p className="mt-6 text-ink">
-          キャンセルの受付期限（{info.deadline}）を過ぎています。お手数ですが、別途ご連絡ください。
+          キャンセルの受付期限（{info.deadline}）を過ぎています。お手数ですが、
+          <a href="mailto:info@goodrelationship.net" className="underline font-bold">
+            info@goodrelationship.net
+          </a>
+          までご連絡ください。
         </p>
       )}
       {error && <p className="mt-4 text-red-700 text-sm">{error}</p>}

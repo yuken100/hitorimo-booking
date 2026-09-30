@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { LEAD_MS } from '@/lib/config';
+import { CONTACT_EMAIL, LEAD_MS } from '@/lib/config';
 import { formatJstDateTime, formatJstRange } from '@/lib/time';
 import { sendCancellationEmails } from '@/lib/email';
 
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
     const message =
       booking.status === 'CANCELLED'
         ? 'このご予約は、すでにキャンセルされています'
-        : 'キャンセルの受付期限を過ぎています。お手数ですが、別途ご連絡ください';
+        : `キャンセルの受付期限を過ぎています。お手数ですが、${CONTACT_EMAIL} までご連絡ください`;
     return NextResponse.json({ error: message }, { status: 409 });
   }
 

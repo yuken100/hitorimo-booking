@@ -1,4 +1,5 @@
 export const SITE_URL = process.env.SITE_URL || 'https://hitorimo-booking.vercel.app';
+export const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'info@goodrelationship.net';
 export const MEETING_URL = process.env.MEETING_URL || 'https://us06web.zoom.us/j/5317818084';
 
 // 予約の受付とキャンセルは、どちらも開始24時間前まで
