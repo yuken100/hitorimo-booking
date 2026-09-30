@@ -1,47 +1,29 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
+import { LEAD_MS } from '@/lib/config';
 
 export const dynamic = 'force-dynamic';
 
-const prisma = new PrismaClient();
+const WINDOW_DAYS = 60;
 
-export async function GET(request: NextRequest) {
+// 予約ページに出す枠：開始24時間後以降〜60日先までの空き枠
+export async function GET() {
   try {
-    const searchParams = request.nextUrl.searchParams;
-    const startDateStr = searchParams.get('startDate');
-    const endDateStr = searchParams.get('endDate');
-
-    if (!startDateStr || !endDateStr) {
-      return NextResponse.json(
-        { error: 'startDate and endDate are required' },
-        { status: 400 }
-      );
-    }
-
-    const startDate = new Date(startDateStr);
-    const endDate = new Date(endDateStr);
-
+    const now = Date.now();
     const slots = await prisma.slot.findMany({
       where: {
-        startTime: {
-          gte: startDate,
-          lte: endDate,
-        },
         status: 'OPEN',
+        startTime: {
+          gte: new Date(now + LEAD_MS),
+          lte: new Date(now + WINDOW_DAYS * 24 * 60 * 60 * 1000),
+        },
       },
-      orderBy: {
-        startTime: 'asc',
-      },
+      select: { id: true, startTime: true, endTime: true, status: true },
+      orderBy: { startTime: 'asc' },
     });
-
     return NextResponse.json(slots);
   } catch (error) {
     console.error('Error fetching slots:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch slots' },
-      { status: 500 }
-    );
-  } finally {
-    await prisma.$disconnect();
+    return NextResponse.json({ error: 'Failed to fetch slots' }, { status: 500 });
   }
 }

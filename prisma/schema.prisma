@@ -39,10 +39,17 @@ model Booking {
   // ステータス
   status    String   @default("PENDING") // PENDING, CONFIRMED, CANCELLED
 
+  cancelToken     String?   @unique
+  privacyAgreedAt DateTime?
+  reminderSentAt  DateTime?
+  cancelledAt     DateTime?
+  clientHash      String?   // 不正予約対策：通信元IPを復元できない形にしたもの
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([slotId])
   @@index([email])
   @@index([status])
+  @@index([clientHash, createdAt])
 }
