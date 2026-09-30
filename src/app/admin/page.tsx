@@ -8,6 +8,7 @@ interface Booking {
   email: string;
   company: string | null;
   message: string;
+  createdAt: string;
 }
 
 interface Slot {
@@ -34,6 +35,38 @@ const jstDate = (iso: string) =>
   });
 const jstTime = (iso: string) =>
   new Date(iso).toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo', hour: '2-digit', minute: '2-digit' });
+
+const jstDateTime = (iso: string) =>
+  new Date(iso).toLocaleString('ja-JP', {
+    timeZone: 'Asia/Tokyo',
+    month: 'numeric',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+
+function BookingDetails({ booking }: { booking: Booking }) {
+  return (
+    <dl className="mt-3 grid grid-cols-[max-content_1fr] gap-x-4 gap-y-2 text-sm text-ink break-words">
+      <dt className="font-bold text-muted">お名前</dt>
+      <dd>{booking.name} 様</dd>
+      <dt className="font-bold text-muted">会社名 / 肩書</dt>
+      <dd>{booking.company || '（なし）'}</dd>
+      <dt className="font-bold text-muted">メール</dt>
+      <dd>
+        <a className="underline" href={`mailto:${booking.email}`}>
+          {booking.email}
+        </a>
+      </dd>
+      <dt className="font-bold text-muted">受付日時</dt>
+      <dd>{jstDateTime(booking.createdAt)}</dd>
+      <dt className="font-bold text-muted col-span-2">ご相談内容</dt>
+      <dd className="col-span-2 p-3 bg-soft border-2 border-ink rounded whitespace-pre-wrap text-base">
+        {booking.message}
+      </dd>
+    </dl>
+  );
+}
 
 const todayJst = () => new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString().slice(0, 10);
 
@@ -179,7 +212,8 @@ export default function AdminPage() {
     return acc;
   }, {});
   const openIds = slots.filter((s) => s.bookings.length === 0 && s.status === 'OPEN').map((s) => s.id);
-  const bookedCount = slots.filter((s) => s.bookings.length > 0).length;
+  const bookedSlots = slots.filter((s) => s.bookings.length > 0);
+  const bookedCount = bookedSlots.length;
 
   if (authed === null) {
     return <p className="p-8 text-muted">読み込み中...</p>;
@@ -234,6 +268,43 @@ export default function AdminPage() {
           {message.text}
         </p>
       )}
+
+      {/* これからの予約 */}
+      <section className="mb-12">
+        <h2 className="text-lg font-bold text-ink mb-4">これからの予約（{bookedSlots.length}件）</h2>
+        {bookedSlots.length === 0 ? (
+          <p className="text-muted">まだ予約は入っていません。</p>
+        ) : (
+          <ul className="space-y-4">
+            {bookedSlots.map((slot) => (
+              <li key={slot.id} className="p-4 border-2 border-ink rounded">
+                <p className="font-bold text-ink text-lg">
+                  {jstDate(slot.startTime)} {jstTime(slot.startTime)}～{jstTime(slot.endTime)}
+                </p>
+                <BookingDetails booking={slot.bookings[0]} />
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <a
+                    href={`mailto:${slot.bookings[0].email}`}
+                    className="px-3 py-1 text-sm font-bold rounded border-2 border-ink bg-accent text-ink"
+                  >
+                    メールを送る
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      handleCancelBooking(slot.bookings[0], `${jstDate(slot.startTime)} ${jstTime(slot.startTime)}`)
+                    }
+                    disabled={busy}
+                    className="px-3 py-1 text-sm font-bold rounded border-2 border-red-600 text-red-700 disabled:opacity-40"
+                  >
+                    この予約を取り消す
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
 
       {/* 枠の作成 */}
       <section className="mb-12 p-5 border-2 border-ink rounded">
@@ -385,22 +456,13 @@ export default function AdminPage() {
                             </span>
                           </p>
                           {booking && (
-                            <div className="mt-2 text-sm text-ink space-y-1 break-words">
-                              <p>
-                                {booking.name}
-                                {booking.company ? `（${booking.company}）` : ''}
-                              </p>
-                              <p>
-                                <a className="underline" href={`mailto:${booking.email}`}>
-                                  {booking.email}
-                                </a>
-                              </p>
-                              <p className="whitespace-pre-wrap text-muted">{booking.message}</p>
+                            <div>
+                              <BookingDetails booking={booking} />
                               <button
                                 type="button"
                                 onClick={() => handleCancelBooking(booking, `${date} ${jstTime(slot.startTime)}`)}
                                 disabled={busy}
-                                className="mt-2 px-3 py-1 text-sm font-bold rounded border-2 border-red-600 text-red-700 disabled:opacity-40"
+                                className="mt-3 px-3 py-1 text-sm font-bold rounded border-2 border-red-600 text-red-700 disabled:opacity-40"
                               >
                                 この予約を取り消す
                               </button>

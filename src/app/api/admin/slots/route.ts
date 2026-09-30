@@ -14,7 +14,12 @@ export async function GET(request: NextRequest) {
   const from = new Date(Date.now() - 24 * 60 * 60 * 1000);
   const slots = await prisma.slot.findMany({
     where: { startTime: { gte: from }, status: { not: 'CANCELLED' } },
-    include: { bookings: { where: { status: 'CONFIRMED' } } },
+    include: {
+      bookings: {
+        where: { status: 'CONFIRMED' },
+        select: { id: true, name: true, email: true, company: true, message: true, createdAt: true },
+      },
+    },
     orderBy: { startTime: 'asc' },
   });
   return NextResponse.json(slots);
