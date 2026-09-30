@@ -1,0 +1,1359 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="誰一人として、置き去りにしない社会を創る。HITORIMO（ヒトリモ）は、人を育てる経営者・リーダーと、夢を持つ起業家を、信頼関係の力で支えます。初回相談は無料です。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="HITORIMO — 誰一人として、置き去りにしない社会を創る。">
+<meta property="og:description" content="誰一人として、置き去りにしない社会を創る。HITORIMO（ヒトリモ）は、人を育てる経営者・リーダーと、夢を持つ起業家を、信頼関係の力で支えます。初回相談は無料です。">
+<meta property="og:locale" content="ja_JP">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23FFE03A'/%3E%3Ctext x='32' y='44' font-family='Arial Black,Arial,sans-serif' font-size='30' font-weight='900' text-anchor='middle' fill='%23141414'%3EMO%3C/text%3E%3C/svg%3E">
+<title>HITORIMO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Dela+Gothic+One&family=Unbounded:wght@400;700;900&family=Yusei+Magic&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+  try {
+    if (window.gsap && window.ScrollTrigger && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('js-motion');
+    }
+  } catch (e) {}
+</script>
+<style>
+  :root {
+    /* Layout: poster wall. Oversized type bleeds across an asymmetric page; stickers, tape and hand-drawn marks sit on top. */
+    --paper: #FFFFFF;
+    --ink: #141414;
+    --muted: #64635C;
+    --soft: #F1F1EC;
+    --accent: #FFE03A;
+    --on-accent: #141414;
+    --white: #FFFFFF;
+    --display: "Dela Gothic One", "Hiragino Sans", "Yu Gothic", sans-serif;
+    --latin: "Unbounded", "Dela Gothic One", "Arial Black", sans-serif;
+    --hand: "Yusei Magic", "Zen Kaku Gothic New", "Hiragino Sans", sans-serif;
+    --body: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+    --gutter: clamp(16px, 4vw, 48px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --paper: #121211; --ink: #F2F2EC; --muted: #A4A399; --soft: #1C1C1A; color-scheme: dark; }
+  }
+  :root[data-theme="dark"] { --paper: #121211; --ink: #F2F2EC; --muted: #A4A399; --soft: #1C1C1A; color-scheme: dark; }
+
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.85; overflow-x: clip; -webkit-font-smoothing: antialiased; }
+  .page { position: relative; padding-inline: var(--gutter); overflow-x: clip; background: var(--paper); }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+  .ph { display: inline-block; }
+  .hand { font-family: var(--hand); line-height: 1.45; }
+  .doodle { flex: none; overflow: visible; fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* ---------- Header ---------- */
+  .bar {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    margin-inline: calc(var(--gutter) * -1); padding: 14px var(--gutter);
+    background: var(--paper); border-bottom: 3px solid var(--ink);
+  }
+  .logo { font-family: var(--latin); font-weight: 900; font-size: 20px; letter-spacing: -.02em; text-decoration: none; }
+  .logo span { margin-left: 2px; padding: 0 .18em; background: var(--accent); color: var(--on-accent); }
+  .nav { display: flex; align-items: center; gap: 8px 18px; font-size: 14px; font-weight: 700; }
+  .nav a { padding: 2px 4px; text-decoration: none; }
+  .nav a:not(.bar-cta):hover { background: var(--accent); color: var(--on-accent); }
+  .nav .bar-cta {
+    padding: 8px 18px; border: 3px solid var(--ink); border-radius: 999px;
+    background: var(--accent); color: var(--on-accent); box-shadow: 4px 4px 0 var(--ink);
+    transition: transform .15s, box-shadow .15s;
+  }
+  .nav .bar-cta:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--ink); }
+  @media (max-width: 640px) { .nav a:not(.bar-cta) { display: none; } }
+
+  /* ---------- Shared section parts ---------- */
+  .sec { padding-block: clamp(64px, 9vw, 130px); border-top: 3px solid var(--ink); }
+  .tag { display: inline-flex; align-items: center; gap: 10px; margin: 0; padding: 6px 14px; border: 2px solid var(--ink); border-radius: 999px; font-size: 13px; font-weight: 700; }
+  .tag span { font-family: var(--latin); font-size: 11px; letter-spacing: .16em; }
+  .big-h { margin: 22px 0 0; font-family: var(--display); font-weight: 400; font-size: clamp(2rem, 5.6vw, 5rem); line-height: 1.18; letter-spacing: -.01em; text-wrap: balance; }
+  .lede { max-width: 36em; margin: 20px 0 0; color: var(--muted); }
+
+  /* ---------- Hand-drawn marks ---------- */
+  .circled, .under { position: relative; display: inline-block; isolation: isolate; }
+  .scribble { position: absolute; z-index: -1; overflow: visible; pointer-events: none; }
+  .circled .scribble { left: -14%; top: -34%; width: 128%; height: 168%; }
+  .under .scribble { left: -4%; bottom: -.14em; width: 108%; height: .32em; }
+  .scribble path {
+    fill: none; stroke: var(--accent); stroke-width: clamp(5px, .7vw, 10px); stroke-linecap: round; stroke-linejoin: round;
+    vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 1;
+    animation: draw 1.1s cubic-bezier(.6,.1,.3,1) forwards;
+  }
+  .circled .scribble path { animation-delay: .4s; }
+  .under .scribble path { animation-delay: 1.9s; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  mark {
+    color: inherit; padding-inline: .04em;
+    background: linear-gradient(transparent 56%, var(--accent) 56%, var(--accent) 94%, transparent 94%) no-repeat 0 0 / 0% 100%;
+    animation: marker .9s cubic-bezier(.6,.1,.3,1) 1.2s forwards;
+  }
+  @keyframes marker { to { background-size: 100% 100%; } }
+
+  /* ---------- Hero ---------- */
+  .hero { position: relative; display: flex; flex-direction: column; gap: 20px; padding-block: clamp(40px, 7vw, 96px) clamp(48px, 7vw, 96px); }
+  .hero-h { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(2.3rem, 9vw, 10rem); line-height: 1.1; letter-spacing: -.02em; }
+  .hero-h > span { display: block; }
+  .hero-h .l2 { margin-left: clamp(0px, 6vw, 120px); }
+  .hero-h .l3 { margin-left: clamp(0px, 2vw, 40px); }
+  .tate { margin: 0; font-weight: 700; font-size: 15px; letter-spacing: .12em; line-height: 1.9; }
+  .hero-foot { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+  .hero-note { display: flex; align-items: flex-start; gap: 6px; margin: 0; font-size: clamp(1.1rem, 1.8vw, 1.5rem); transform: rotate(-3deg); }
+  .hero-note .doodle { width: 64px; height: 56px; }
+  .stamp { position: relative; flex: none; width: clamp(120px, 15vw, 190px); aspect-ratio: 1; padding: 0; border: 0; border-radius: 50%; background: none; cursor: pointer; }
+  .stamp svg { display: block; width: 100%; height: 100%; overflow: visible; }
+  .stamp-bg { fill: var(--accent); stroke: var(--ink); stroke-width: 3; }
+  .stamp-t { font-family: var(--body); font-weight: 700; font-size: 15px; fill: var(--on-accent); }
+  .stamp-core { fill: var(--paper); stroke: var(--ink); stroke-width: 3; }
+  .stamp-p { fill: var(--ink); }
+  @media (min-width: 900px) {
+    .stamp { position: absolute; right: 0; top: 32px; }
+    .tate { position: absolute; right: 12px; bottom: clamp(48px, 7vw, 96px); writing-mode: vertical-rl; font-size: 16px; }
+    .hero-foot { justify-content: flex-end; padding-right: 10%; }
+  }
+
+  /* ---------- Playground ---------- */
+  .play {
+    display: grid; gap: 28px; align-items: center;
+    margin-bottom: clamp(64px, 10vw, 140px); padding: clamp(24px, 4vw, 56px); overflow: hidden;
+    border: 3px solid var(--ink); border-radius: 28px; background: var(--soft); box-shadow: 10px 10px 0 var(--ink);
+  }
+  .play-copy, .play-stage { min-width: 0; }
+  .play-h { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(2rem, 5vw, 4.2rem); line-height: 1.15; text-wrap: balance; }
+  .play-p { max-width: 30em; margin: 16px 0 0; color: var(--muted); }
+  .play-hint { display: inline-block; margin: 10px 0 0; font-size: 1.05rem; transform: rotate(-2deg); }
+  .join {
+    display: inline-flex; align-items: center; gap: 12px; margin-top: 24px; padding: 16px 28px;
+    font: 700 18px/1 var(--body); color: var(--on-accent); text-decoration: none;
+    background: var(--accent); border: 3px solid var(--ink); border-radius: 999px; box-shadow: 6px 6px 0 var(--ink);
+    cursor: pointer; transition: transform .12s, box-shadow .12s;
+  }
+  .join:hover { transform: translate(-2px, -2px) rotate(-2deg); box-shadow: 8px 8px 0 var(--ink); }
+  .join:active { transform: translate(4px, 4px); box-shadow: 2px 2px 0 var(--ink); }
+  .join b { font-family: var(--latin); font-weight: 900; }
+  .play-count { margin: 18px 0 0; font-weight: 700; }
+  .play-count b { font-family: var(--latin); font-weight: 900; font-size: 1.6em; font-variant-numeric: tabular-nums; }
+  .play-stage svg { display: block; width: 100%; max-width: 560px; height: auto; margin-inline: auto; overflow: visible; cursor: pointer; touch-action: manipulation; }
+  .ring-guide { fill: none; stroke: var(--ink); stroke-opacity: .16; stroke-dasharray: 3 8; }
+  .core circle { fill: var(--accent); stroke: var(--ink); stroke-width: 3; }
+  .core-n { font-family: var(--latin); font-weight: 900; font-size: 46px; fill: var(--on-accent); text-anchor: middle; font-variant-numeric: tabular-nums; }
+  .core-l { font-family: var(--body); font-weight: 700; font-size: 15px; fill: var(--on-accent); text-anchor: middle; }
+  .pp-ink { fill: var(--ink); }
+  .pp-you { fill: var(--accent); stroke: var(--ink); stroke-width: 2; }
+  .pp-lone { fill: var(--muted); }
+  @media (min-width: 900px) { .play { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } }
+
+  /* ---------- Chain of suffering (kept quiet) ---------- */
+  .chain { margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); }
+  .chain-progress { display: none; max-width: 1100px; height: 10px; margin-top: 28px; overflow: hidden; border: 2px solid var(--ink); border-radius: 999px; }
+  .chain-progress i { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); }
+  .chain-track { display: flex; flex-direction: column; margin-top: 40px; }
+  .pain { display: flex; flex-direction: column; gap: 12px; padding: 28px; border: 3px solid var(--ink); border-radius: 22px; background: var(--paper); }
+  .pain-chip { align-self: flex-start; padding: 3px 12px; border: 2px solid var(--ink); border-radius: 999px; font-size: 12px; font-weight: 700; }
+  .pain-who { margin: 0; font-weight: 700; }
+  .pain-voice { margin: 0; font-weight: 700; font-size: clamp(1.15rem, 1.9vw, 1.4rem); line-height: 1.75; }
+  .pain-note { margin: auto 0 0; padding-top: 8px; color: var(--muted); font-size: 14px; }
+  .pain-end { background: var(--accent); color: var(--on-accent); box-shadow: 8px 8px 0 var(--ink); }
+  .pain-end .pain-chip { border-color: var(--on-accent); }
+  .pain-end .pain-voice { font-family: var(--display); font-weight: 400; font-size: clamp(1.3rem, 2.2vw, 1.7rem); line-height: 1.55; }
+  .pain-end .pain-note { color: var(--on-accent); }
+  .hop { display: flex; align-items: center; gap: 12px; padding: 12px 0 12px 18px; font-size: 1.05rem; }
+  .hop .doodle { width: 44px; height: 26px; transform: rotate(90deg); }
+  @media (min-width: 900px) {
+    .js-motion .chain { height: 100vh; height: 100svh; padding-block: 0; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+    .js-motion .chain-progress { display: block; }
+    .js-motion .chain-track { flex-direction: row; align-items: stretch; width: max-content; }
+    .js-motion .pain { width: min(400px, 34vw); flex: none; min-height: 330px; }
+    .js-motion .pain-end { width: min(460px, 38vw); }
+    .js-motion .hop { flex-direction: column; justify-content: center; width: 132px; flex: none; padding: 0 8px; text-align: center; }
+    .js-motion .hop .doodle { width: 64px; transform: none; }
+  }
+
+  /* ---------- Tape bands (kinetic type) ---------- */
+  .tape {
+    position: relative; z-index: 2; margin: 28px calc(var(--gutter) * -1 - 40px); padding-block: 14px; overflow: hidden;
+    border-block: 3px solid var(--ink); background: var(--accent); color: var(--on-accent); transform: rotate(-2deg);
+  }
+  .tape-ink { border-color: var(--accent); background: var(--ink); color: var(--paper); transform: rotate(1.5deg); }
+  .tape + .sec { border-top: 0; }
+  .k-row { display: flex; white-space: nowrap; }
+  .k-track { display: flex; flex: none; will-change: transform; }
+  .k-group { display: flex; flex: none; align-items: center; gap: .35em; padding-right: .35em; font-family: var(--display); font-size: clamp(2.2rem, 6.5vw, 5.6rem); line-height: 1.25; }
+  .k-group i { font-style: normal; font-size: .45em; }
+  .k-outline { color: transparent; -webkit-text-stroke: 1.5px var(--on-accent); }
+  .tape-ink .k-outline { -webkit-text-stroke-color: var(--accent); }
+
+  /* ---------- Philosophy ---------- */
+  .phil { display: grid; gap: 40px; }
+  .phil-quote { margin: 0; justify-self: start; writing-mode: vertical-rl; font-family: var(--display); font-weight: 400; font-size: clamp(2.2rem, 5vw, 4.4rem); line-height: 1.4; letter-spacing: .06em; }
+  .phil-quote mark { background: linear-gradient(90deg, transparent 10%, var(--accent) 10%, var(--accent) 90%, transparent 90%) no-repeat 0 0 / 100% 0%; animation-name: marker-v; }
+  @keyframes marker-v { to { background-size: 100% 100%; } }
+  .phil-main { min-width: 0; }
+  .phil-prose p { max-width: 34em; margin: 0 0 1.2em; line-height: 2.05; }
+  .phil-prose p:last-child { margin-bottom: 0; }
+  .aims-note { display: flex; align-items: flex-end; gap: 8px; margin: 56px 0 0; font-size: clamp(1.1rem, 1.8vw, 1.4rem); transform: rotate(-2deg); }
+  .aims-note .doodle { width: 40px; height: 64px; }
+  .aims { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 22px; }
+  .aims li {
+    padding: 24px 26px; border: 3px solid var(--ink); border-radius: 18px; background: var(--paper); box-shadow: 6px 6px 0 var(--ink);
+    font-family: var(--display); font-size: clamp(1.15rem, 2.1vw, 1.5rem); line-height: 1.55;
+    transform: rotate(var(--r, 0deg)); transition: transform .35s cubic-bezier(.3,1.6,.5,1);
+  }
+  .aims li:nth-child(1) { --r: -1.8deg; }
+  .aims li:nth-child(2) { --r: 1.4deg; background: var(--accent); color: var(--on-accent); }
+  .aims li:nth-child(3) { --r: 1deg; }
+  .aims li:nth-child(4) { --r: -1.4deg; background: var(--ink); color: var(--paper); box-shadow: 6px 6px 0 var(--accent); }
+  .aims li:hover { transform: rotate(0deg) scale(1.03); }
+  @media (min-width: 700px) { .aims { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 900px) {
+    .phil { grid-template-columns: auto minmax(0, 1fr); column-gap: clamp(48px, 7vw, 110px); }
+    .phil > .tag { grid-column: 1 / -1; justify-self: start; }
+  }
+
+  /* ---------- How: stacking cards + comparison ---------- */
+  .stack { margin-top: 48px; }
+  .card3 {
+    position: sticky; top: 96px; display: flex; flex-direction: column; justify-content: center; gap: 14px;
+    min-height: 300px; padding: clamp(28px, 4vw, 48px); border: 3px solid var(--ink); border-radius: 26px;
+    background: var(--paper); box-shadow: 8px 8px 0 var(--ink); transform-origin: 50% 0;
+  }
+  .card3 + .card3 { margin-top: 36px; }
+  .card3:nth-child(2) { top: 122px; background: var(--accent); color: var(--on-accent); }
+  .card3:nth-child(3) { top: 148px; background: var(--ink); color: var(--paper); box-shadow: 8px 8px 0 var(--accent); }
+  .card3-no { margin: 0; font-family: var(--latin); font-weight: 900; font-size: clamp(2.6rem, 5vw, 4rem); line-height: 1; color: transparent; -webkit-text-stroke: 2px var(--ink); }
+  .card3:nth-child(2) .card3-no { -webkit-text-stroke-color: var(--on-accent); }
+  .card3:nth-child(3) .card3-no { -webkit-text-stroke-color: var(--accent); }
+  .card3-t { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(1.6rem, 3.2vw, 2.6rem); line-height: 1.3; }
+  .card3-d { max-width: 38em; margin: 0; line-height: 1.9; }
+  .card3:nth-child(1) .card3-d { color: var(--muted); }
+  @media (max-width: 767px) {
+    .card3 { top: 84px; min-height: 260px; }
+    .card3:nth-child(2) { top: 100px; }
+    .card3:nth-child(3) { top: 116px; }
+  }
+  .vs { display: grid; gap: 20px; margin-top: 72px; }
+  .vs-box { display: flex; flex-direction: column; padding: 28px; border: 3px solid var(--ink); border-radius: 22px; }
+  .vs-now { border-style: dashed; }
+  .vs-goal { background: var(--accent); color: var(--on-accent); box-shadow: 8px 8px 0 var(--ink); }
+  .vs-label { margin: 0; font-family: var(--hand); font-size: 1.3rem; }
+  .vs-list { list-style: none; margin: 16px 0 22px; padding: 0; display: grid; gap: 12px; font-weight: 700; }
+  .vs-now li { position: relative; justify-self: start; }
+  .vs-now li::after {
+    content: ""; position: absolute; left: -6px; right: -6px; top: 52%; height: 3px; border-radius: 3px; background: var(--ink);
+    transform: rotate(-3deg) scaleX(0); transform-origin: left; transition: transform .6s cubic-bezier(.6,.1,.3,1);
+  }
+  .vs.in .vs-now li::after { transform: rotate(-3deg) scaleX(1); }
+  .vs.in .vs-now li:nth-child(2)::after { transition-delay: .3s; }
+  .vs.in .vs-now li:nth-child(3)::after { transition-delay: .6s; }
+  .vs-result { margin: auto 0 0; padding-top: 16px; border-top: 3px solid currentColor; font-family: var(--display); font-size: clamp(1.2rem, 2vw, 1.5rem); line-height: 1.5; }
+  .vs-arrow { display: grid; place-items: center; }
+  .vs-arrow .doodle { width: 72px; height: 30px; transform: rotate(90deg); }
+  @media (min-width: 900px) {
+    .vs { grid-template-columns: minmax(0, 1fr) 96px minmax(0, 1fr); }
+    .vs-arrow .doodle { transform: none; }
+  }
+
+  /* ---------- Roadmap ---------- */
+  .road { position: relative; list-style: none; margin: 56px 0 0; padding: 0; display: grid; gap: 40px; }
+  .road::before { content: ""; position: absolute; left: 11px; top: 13px; width: 4px; height: calc(var(--gy, 100%) - 13px); border-radius: 4px; background: var(--ink); }
+  .road::after {
+    content: ""; position: absolute; left: 3px; top: 3px; width: 20px; height: 20px; border-radius: 50%;
+    border: 3px solid var(--ink); background: var(--accent); animation: travel-v 5s ease-in-out infinite;
+  }
+  @keyframes travel-v { 0% { top: 3px; } 75%, 100% { top: calc(var(--gy, 100%) - 10px); } }
+  .stop { position: relative; padding-left: 48px; }
+  .stop-dot { position: absolute; left: 0; top: 0; width: 26px; height: 26px; border: 3px solid var(--ink); border-radius: 50%; background: var(--paper); }
+  .stop.now .stop-dot { background: var(--accent); }
+  .stop.goal .stop-dot { background: var(--ink); }
+  .stop-when { display: inline-block; padding: 1px 12px; border: 2px solid var(--ink); border-radius: 999px; font-size: 13px; font-weight: 700; }
+  .here { display: inline-block; margin-left: 8px; padding: 0 10px; border: 2px solid var(--ink); border-radius: 6px; background: var(--accent); color: var(--on-accent); font-family: var(--hand); font-size: 15px; transform: rotate(-5deg); }
+  .stop-t { margin: 12px 0 0; font-family: var(--display); font-weight: 400; font-size: clamp(1.25rem, 2vw, 1.55rem); line-height: 1.45; }
+  .stop-d { margin: 8px 0 0; color: var(--muted); font-size: 15px; }
+  .stop-body { padding: 18px 20px; border-radius: 18px; background: var(--ink); color: var(--paper); animation: goal-pop 5s ease-in-out infinite; }
+  .stop-body .stop-when { border-color: var(--paper); }
+  .stop-body .stop-d { color: var(--paper); opacity: .8; }
+  @keyframes goal-pop { 0%, 70%, 100% { box-shadow: 0 0 0 0 transparent; } 80% { box-shadow: 0 0 0 8px var(--accent); } }
+  @media (min-width: 900px) {
+    .road { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; padding-top: 48px; }
+    .road::before { left: 13px; top: 11px; width: calc(var(--gx, 100%) - 13px); height: 4px; }
+    .road::after { top: 3px; left: 3px; animation-name: travel-h; }
+    .stop { padding-left: 0; }
+    .stop-dot { top: -48px; }
+  }
+  @keyframes travel-h { 0% { left: 3px; } 75%, 100% { left: calc(var(--gx, 100%) - 10px); } }
+
+  /* ---------- Founder (kept calm) ---------- */
+  .founder { display: grid; gap: 40px; }
+  .polaroid { position: relative; width: min(100%, 300px); margin: 16px 0 0; padding: 14px 14px 52px; border: 3px solid var(--ink); background: var(--paper); box-shadow: 8px 8px 0 var(--ink); transform: rotate(-3deg); }
+  .polaroid::before { content: ""; position: absolute; top: -15px; left: 50%; width: 100px; height: 28px; margin-left: -50px; border: 2px solid var(--ink); background: var(--accent); transform: rotate(4deg); }
+  .photo { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 30%; background: var(--soft); }
+  .polaroid figcaption { position: absolute; left: 0; right: 0; bottom: 12px; font-family: var(--hand); font-size: 1.1rem; text-align: center; }
+  .f-name { margin: 40px 0 0; font-family: var(--display); font-weight: 400; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.2; }
+  .f-kana { display: block; margin-top: 6px; font-family: var(--body); font-size: 13px; font-weight: 700; letter-spacing: .14em; color: var(--muted); }
+  .f-role { margin: 10px 0 0; color: var(--muted); font-size: 14px; }
+  .letter-h { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(1.8rem, 3.6vw, 3rem); line-height: 1.25; }
+  .letter { margin-top: 28px; }
+  .letter p { max-width: 36em; margin: 0 0 1.3em; line-height: 2.05; }
+  .letter .sign { font-family: var(--display); font-size: clamp(1.3rem, 2.4vw, 1.8rem); line-height: 1.55; }
+  .beliefs { list-style: none; margin: 48px 0 0; padding: 0; display: grid; gap: 16px; }
+  .beliefs li { padding: 22px 24px; border: 3px solid var(--ink); border-radius: 18px; }
+  .belief-t { display: block; font-family: var(--display); font-size: clamp(1.1rem, 1.8vw, 1.3rem); line-height: 1.55; }
+  .belief-d { display: block; margin-top: 8px; color: var(--muted); font-size: 15px; }
+  @media (min-width: 900px) {
+    .founder { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); column-gap: clamp(40px, 6vw, 96px); align-items: start; }
+    .founder > .tag { grid-column: 1 / -1; justify-self: start; }
+  }
+
+  /* ---------- Services ---------- */
+  .svc-grid { display: grid; gap: 24px; align-items: start; margin-top: 48px; }
+  .svc { border: 3px solid var(--ink); border-radius: 22px; background: var(--paper); box-shadow: 6px 6px 0 var(--ink); transition: transform .15s, box-shadow .15s; }
+  .svc:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--ink); }
+  .svc[open] { box-shadow: 8px 8px 0 var(--accent); }
+  .svc summary { display: flex; flex-direction: column; gap: 10px; padding: 28px; border-radius: 20px; list-style: none; cursor: pointer; }
+  .svc summary::-webkit-details-marker { display: none; }
+  .svc-for { align-self: flex-start; padding: 3px 12px; border: 2px solid var(--ink); border-radius: 999px; font-size: 12px; font-weight: 700; }
+  .svc-for.biz { background: var(--accent); color: var(--on-accent); }
+  .svc-t { font-family: var(--display); font-size: clamp(1.4rem, 2.4vw, 1.9rem); line-height: 1.35; }
+  .svc-catch { align-self: flex-start; padding: 0 10px; background: var(--accent); color: var(--on-accent); font-family: var(--hand); font-size: 1.2rem; transform: rotate(-2deg); }
+  .svc-lead { color: var(--muted); font-size: 15px; }
+  .svc-more { display: inline-flex; align-items: center; gap: 10px; margin-top: 4px; font-size: 14px; font-weight: 700; }
+  .svc-more::after { content: "+"; display: grid; place-items: center; width: 28px; height: 28px; border: 2px solid var(--ink); border-radius: 50%; font-size: 18px; line-height: 1; transition: transform .3s; }
+  .svc[open] .svc-more::after { transform: rotate(45deg); background: var(--accent); color: var(--on-accent); }
+  .svc .m-close, .svc[open] .m-open { display: none; }
+  .svc[open] .m-close { display: inline; }
+  .svc-body { padding: 0 28px 28px; }
+  .svc-h { margin: 0 0 10px; padding-top: 20px; border-top: 3px solid var(--ink); font-size: 13px; font-weight: 700; letter-spacing: .08em; }
+  .svc-list + .svc-h, .svc-p + .svc-h { margin-top: 22px; }
+  .svc-p { margin: 0; font-size: 15px; line-height: 1.9; }
+  .svc-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .svc-list li { position: relative; padding-left: 22px; font-size: 15px; line-height: 1.75; }
+  .svc-list li::before { content: ""; position: absolute; left: 1px; top: .6em; width: 9px; height: 9px; border: 2px solid var(--ink); background: var(--accent); transform: rotate(45deg); }
+  .svc-why { margin: 22px 0 0; padding: 16px 18px; border: 3px solid var(--ink); border-radius: 14px; background: var(--accent); color: var(--on-accent); font-size: 14px; line-height: 1.9; }
+  .svc-why b { display: block; margin-bottom: 4px; font-family: var(--display); font-weight: 400; font-size: 16px; }
+  .svc-price { margin: 20px 0 0; color: var(--muted); font-size: 14px; }
+  .svc-price b { color: var(--ink); }
+  .svc-link { display: inline-block; margin-top: 16px; padding: 10px 18px; border: 3px solid var(--ink); border-radius: 999px; background: var(--accent); color: var(--on-accent); box-shadow: 4px 4px 0 var(--ink); font-size: 14px; font-weight: 700; text-decoration: none; }
+  /* AI card: always dark, whatever the page theme */
+  .svc-ai {
+    --ink: #F5F5EF; --muted: #BDBCB2; --paper: #0B0B10; --ai-bg: #0B0B10;
+    position: relative; grid-column: 1 / -1; overflow: hidden; border-color: var(--accent); color: var(--ink); box-shadow: 8px 8px 0 var(--accent);
+    background:
+      radial-gradient(560px circle at 88% 12%, rgba(255,224,58,.24), transparent 62%),
+      linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px) 0 0 / 44px 44px,
+      linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px) 0 0 / 44px 44px,
+      var(--ai-bg);
+  }
+  .svc-ai::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 140px; pointer-events: none; background: linear-gradient(180deg, transparent, rgba(255,224,58,.11), transparent); animation: ai-scan 7s linear infinite; }
+  @keyframes ai-scan { from { transform: translateY(-140px); } to { transform: translateY(900px); } }
+  .svc-ai summary { position: relative; display: grid; gap: 28px; align-items: center; padding: clamp(24px, 4vw, 48px); }
+  .ai-copy { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  .ai-vis { position: relative; z-index: 1; display: block; min-width: 0; }
+  .ai-vis svg { display: block; width: 100%; max-width: 440px; height: auto; margin-inline: auto; overflow: visible; }
+  .ai-ghost { position: absolute; right: 1%; bottom: -6%; z-index: 0; font-family: var(--latin); font-weight: 900; font-size: clamp(8rem, 24vw, 20rem); line-height: .8; color: transparent; -webkit-text-stroke: 2px rgba(255,224,58,.16); pointer-events: none; user-select: none; }
+  .ai-tag { align-self: flex-start; display: inline-flex; align-items: center; gap: 10px; padding: 4px 14px 4px 4px; border: 2px solid var(--accent); border-radius: 999px; color: var(--accent); font-family: var(--latin); font-size: 12px; font-weight: 700; letter-spacing: .14em; }
+  .ai-tag b { padding: 2px 10px; border-radius: 999px; background: var(--accent); color: #141414; font-weight: 900; }
+  .svc-ai .svc-t { font-size: clamp(2rem, 4.6vw, 3.8rem); line-height: 1.2; }
+  .svc-ai .svc-lead { max-width: 30em; font-size: 16px; }
+  .ai-prompt { display: flex; align-items: center; gap: .6em; min-height: 3.6em; margin-top: 6px; padding: 12px 18px; border: 2px solid rgba(255,224,58,.5); border-radius: 14px; background: rgba(255,255,255,.05); font-family: "DotGothic16", var(--body); font-size: clamp(15px, 1.8vw, 18px); line-height: 1.5; }
+  .ai-prompt .gt { color: var(--accent); }
+  .ai-cursor { display: inline-block; width: .55em; height: 1.1em; margin-left: 2px; background: var(--accent); vertical-align: -.15em; animation: ai-blink 1s steps(2) infinite; }
+  @keyframes ai-blink { 50% { opacity: 0; } }
+  .ai-edges line { stroke: rgba(255,255,255,.16); stroke-width: 1.2; }
+  .ai-nodes circle { fill: var(--ai-bg); stroke: var(--accent); stroke-width: 2.5; transform-box: fill-box; transform-origin: center; }
+  .ai-pulses circle { fill: var(--accent); filter: drop-shadow(0 0 8px var(--accent)); }
+  .ai-spark { position: absolute; z-index: 2; color: var(--accent); font-size: 22px; line-height: 1; animation: ai-twinkle 2.6s ease-in-out infinite; }
+  .ai-spark.s1 { left: 4%; top: 2%; }
+  .ai-spark.s2 { right: 2%; top: 30%; font-size: 30px; animation-delay: .9s; }
+  .ai-spark.s3 { left: 22%; bottom: 0; font-size: 16px; animation-delay: 1.6s; }
+  @keyframes ai-twinkle { 0%, 100% { opacity: .2; transform: scale(.6) rotate(0deg); } 50% { opacity: 1; transform: scale(1.15) rotate(45deg); } }
+  @media (min-width: 900px) { .svc-ai summary { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); } }
+
+  .gain { margin-top: 32px; padding: clamp(28px, 4vw, 44px); border-radius: 26px; background: var(--ink); color: var(--paper); }
+  .gain-chip { display: inline-block; padding: 3px 12px; border-radius: 999px; background: var(--accent); color: var(--on-accent); font-size: 12px; font-weight: 700; }
+  .gain-t { margin: 14px 0 0; font-family: var(--display); font-size: clamp(1.5rem, 3vw, 2.4rem); line-height: 1.3; }
+  .gain-list { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 12px 32px; }
+  .gain-list li { position: relative; padding-left: 30px; }
+  .gain-list li::before { content: ""; position: absolute; left: 2px; top: .42em; width: 15px; height: 8px; border-left: 3px solid var(--accent); border-bottom: 3px solid var(--accent); transform: rotate(-45deg); }
+  .gain-note { margin: 20px 0 0; font-size: 13px; opacity: .75; }
+  .soon { margin-top: 20px; padding: 22px 26px; border: 3px dashed var(--ink); border-radius: 22px; }
+  .soon-t { margin: 0; font-family: var(--hand); font-size: 1.25rem; }
+  .soon-list { margin: 8px 0 0; padding-left: 1.2em; color: var(--muted); }
+  @media (min-width: 900px) { .svc-grid, .gain-list { grid-template-columns: 1fr 1fr; } }
+
+  /* ---------- Record ---------- */
+  .slots { display: grid; gap: 20px; margin-top: 40px; }
+  .slot { position: relative; display: flex; flex-direction: column; gap: 14px; min-height: 190px; padding: 26px; overflow: hidden; border: 3px dashed var(--ink); border-radius: 22px; }
+  .slot-t { margin: 0; font-weight: 700; }
+  .slot-bar { height: 10px; border-radius: 999px; background: var(--soft); }
+  .slot-bar.short { width: 60%; }
+  .slot-stamp { position: absolute; right: 18px; bottom: 16px; padding: 4px 14px; border: 3px solid var(--ink); border-radius: 10px; background: var(--accent); color: var(--on-accent); font-family: var(--hand); font-size: 1.2rem; transform: rotate(-8deg); }
+  @media (min-width: 900px) { .slots { grid-template-columns: repeat(3, 1fr); } }
+
+  /* ---------- Contact ---------- */
+  .contact-box { padding: clamp(28px, 5vw, 64px); border: 3px solid var(--ink); border-radius: 30px; background: var(--accent); color: var(--on-accent); box-shadow: 12px 12px 0 var(--ink); }
+  .contact-box .tag { border-color: var(--on-accent); }
+  .contact-box .lede { color: var(--on-accent); opacity: .8; }
+  .options { display: grid; gap: 16px; margin-top: 32px; }
+  .opt {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; padding: 22px 24px;
+    border: 3px solid var(--on-accent); border-radius: 20px; background: var(--paper); color: var(--ink);
+    font: inherit; text-align: left; text-decoration: none; box-sizing: border-box; cursor: pointer; box-shadow: 5px 5px 0 var(--on-accent); transition: transform .12s, box-shadow .12s;
+  }
+  .opt:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--on-accent); }
+  .opt:active { transform: translate(3px, 3px); box-shadow: 2px 2px 0 var(--on-accent); }
+  .opt-t { display: block; font-size: 17px; font-weight: 700; line-height: 1.5; }
+  .opt-d { display: block; margin-top: 4px; font-size: 14px; opacity: .75; }
+  .opt svg { flex: none; width: 22px; height: 22px; }
+  .opt-main { background: var(--on-accent); color: var(--accent); }
+  .opt-main .opt-t { font-family: var(--display); font-weight: 400; font-size: clamp(1.2rem, 2.2vw, 1.6rem); }
+  .opt-main .opt-d { color: var(--white); opacity: .8; }
+  .opt-note { margin: 18px 0 0; padding: 12px 16px; border: 2px dashed var(--on-accent); border-radius: 12px; font-size: 14px; }
+  @media (min-width: 900px) { .options { grid-template-columns: 1fr 1fr; } .opt-main { grid-column: 1 / -1; } }
+
+  /* ---------- FAQ ---------- */
+  .faq-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 36px; }
+  .faq-tab { padding: 8px 18px; border: 3px solid var(--ink); border-radius: 999px; background: var(--paper); color: var(--ink); font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; }
+  .faq-tab[aria-selected="true"] { background: var(--accent); color: var(--on-accent); box-shadow: 3px 3px 0 var(--ink); }
+  .faq { max-width: 820px; margin-top: 24px; border-top: 3px solid var(--ink); }
+  .faq details { border-bottom: 2px solid var(--ink); }
+  .faq summary { position: relative; padding: 20px 52px 20px 0; list-style: none; cursor: pointer; font-weight: 700; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; position: absolute; right: 4px; top: 50%; display: grid; place-items: center; width: 30px; height: 30px; margin-top: -15px; border: 2px solid var(--ink); border-radius: 50%; font-size: 18px; line-height: 1; transition: transform .3s; }
+  .faq details[open] summary::after { transform: rotate(45deg); background: var(--accent); color: var(--on-accent); }
+  .faq details p { max-width: 42em; margin: 0 0 20px; color: var(--muted); }
+
+  /* ---------- Footer (curtain reveal) ---------- */
+  .f-curtain { position: relative; height: 100vh; height: 100svh; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+  .foot {
+    position: fixed; left: 0; bottom: 0; width: 100%; height: 100vh; height: 100svh; overflow: hidden;
+    display: flex; flex-direction: column; justify-content: space-between; gap: 24px;
+    padding: clamp(80px, 12vh, 140px) var(--gutter) 24px; background: var(--accent); color: var(--on-accent);
+  }
+  .foot-top { position: relative; z-index: 1; }
+  .foot-h { margin: 0; font-family: var(--display); font-size: clamp(2.6rem, 9vw, 8rem); line-height: 1.05; }
+  .foot-row { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 28px; }
+  .fbtn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 26px; border: 3px solid var(--on-accent); border-radius: 999px; box-shadow: 5px 5px 0 var(--on-accent); font-weight: 700; text-decoration: none; transition: transform .12s, box-shadow .12s; }
+  .fbtn:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--on-accent); }
+  .fbtn-dark { background: var(--on-accent); color: var(--accent); }
+  .fbtn-light { background: var(--white); color: var(--on-accent); }
+  .foot-links { display: flex; flex-wrap: wrap; gap: 6px 20px; margin-top: 28px; font-size: 14px; font-weight: 700; }
+  .foot-links a { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+  .foot-contact { margin: 14px 0 0; font-size: 13px; opacity: .75; }
+  .foot-giant { position: absolute; left: 0; right: 0; bottom: 64px; margin: 0; pointer-events: none; font-family: var(--latin); font-weight: 900; font-size: 14vw; line-height: .8; letter-spacing: -.04em; text-align: center; white-space: nowrap; color: transparent; -webkit-text-stroke: 2px var(--on-accent); opacity: .3; }
+  .foot-bottom { position: relative; z-index: 1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; font-size: 13px; font-weight: 700; }
+  .heart { display: inline-block; animation: heartbeat 2s ease-in-out infinite; }
+  @keyframes heartbeat { 0%, 100% { transform: scale(1); } 15%, 45% { transform: scale(1.25); } 30% { transform: scale(1); } }
+  .to-top { display: grid; place-items: center; width: 48px; height: 48px; padding: 0; border: 3px solid var(--on-accent); border-radius: 50%; background: var(--white); color: var(--on-accent); cursor: pointer; }
+  .to-top svg { width: 20px; height: 20px; }
+
+  /* ---------- Custom cursor (mouse only) ---------- */
+  .cursor {
+    position: fixed; left: 0; top: 0; z-index: 100; display: grid; place-items: center;
+    width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%;
+    background: var(--accent); border: 2px solid var(--ink); pointer-events: none; opacity: 0;
+    transition: width .25s cubic-bezier(.3,1.4,.5,1), height .25s cubic-bezier(.3,1.4,.5,1), margin .25s cubic-bezier(.3,1.4,.5,1), opacity .2s;
+  }
+  .cursor span { font: 700 13px/1 var(--body); color: var(--on-accent); white-space: nowrap; opacity: 0; transition: opacity .15s; }
+  .cursor.big { width: 76px; height: 76px; margin: -38px 0 0 -38px; }
+  .cursor.big span { opacity: 1; }
+  .has-cursor, .has-cursor a, .has-cursor button, .has-cursor summary, .has-cursor .play-stage svg { cursor: none; }
+
+  /* Marks and strikes wait until their block is on screen */
+  [data-reveal] mark { animation-delay: .25s; animation-play-state: paused; }
+  [data-reveal].in mark { animation-play-state: running; }
+
+  @media (prefers-reduced-motion: reduce) {
+    mark, .phil-quote mark { animation: none; background-size: 100% 100%; }
+    .scribble path { animation: none; stroke-dashoffset: 0; }
+    .road::after, .stop-body, .heart, .svc-ai::after, .ai-cursor, .ai-spark { animation: none; }
+    .aims li, .join, .nav .bar-cta, .svc, .svc-more::after, .opt, .fbtn, .vs-now li::after, .faq summary::after { transition: none; }
+  }
+</style>
+</head>
+<body>
+<div class="cursor" aria-hidden="true"><span></span></div>
+
+<div class="page">
+  <header class="bar">
+    <a class="logo" href="#top" data-cursor="上へ">HITORI<span>MO</span></a>
+    <nav class="nav" aria-label="メニュー">
+      <a href="#philosophy" data-cursor="読む">理念</a>
+      <a href="#how" data-cursor="読む">方法</a>
+      <a href="#services" data-cursor="見る">サービス</a>
+      <a href="#founder" data-cursor="読む">代表</a>
+      <a class="bar-cta" href="#contact" data-cursor="話す">相談する</a>
+    </nav>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero" id="top" aria-label="HITORIMO">
+    <h1 class="hero-h">
+      <span class="l1"><span class="circled">誰一人<svg class="scribble" viewBox="0 0 200 100" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M28 58C22 24 170 10 186 44C198 76 70 98 22 70C4 56 34 26 112 20"/></svg></span>として、</span>
+      <span class="l2">置き去りに<mark>しない</mark></span>
+      <span class="l3">社会を<span class="under">創る<svg class="scribble" viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M4 13C50 5 110 17 196 8"/></svg></span>。</span>
+    </h1>
+    <p class="tate">人を育てる人も、夢を追う人も、<br>一人にしない。</p>
+    <div class="hero-foot">
+      <p class="hero-note hand">
+        <svg class="doodle" viewBox="0 0 64 56" aria-hidden="true"><path d="M60 50C36 50 16 36 10 8"/><path d="M3 16L10 6L19 14"/></svg>
+        <span>大きすぎる目標。<br>だから、仲間が要る。</span>
+      </p>
+      <button class="stamp" type="button" aria-label="スタンプを回す" data-cursor="回す">
+        <svg viewBox="0 0 200 200" aria-hidden="true">
+          <defs><path id="stamp-path" d="M100 100m-72 0a72 72 0 1 1 144 0a72 72 0 1 1-144 0"/></defs>
+          <circle class="stamp-bg" cx="100" cy="100" r="96"/>
+          <g id="stamp-rot"><text class="stamp-t"><textPath href="#stamp-path" textLength="446" lengthAdjust="spacing">誰一人として置き去りにしない ✦ HITORIMO ✦</textPath></text></g>
+          <circle class="stamp-core" cx="100" cy="100" r="38"/>
+          <g class="stamp-p" transform="translate(100 104) scale(1.8)"><circle cy="-8" r="7"/><path d="M-13 14Q-13 1 0 1Q13 1 13 14Z"/></g>
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ===== Playground ===== -->
+  <section class="play" aria-labelledby="play-h">
+    <div class="play-copy">
+      <h2 class="play-h" id="play-h">あなたも、<br>輪の中へ。</h2>
+      <p class="play-p">ボタンを押すと、新しい一人が輪に加わります。輪の人たちは少しずつ詰めて、場所を空けます。</p>
+      <p class="play-hint hand">図のどこを押しても入れます</p>
+      <div>
+        <button class="join" type="button" id="join" data-cursor="入る">輪に入る <b>+1</b></button>
+        <a class="join" id="join-full" href="#contact" data-cursor="話す" hidden>続きは、本物の輪で</a>
+      </div>
+      <p class="play-count" aria-live="polite">いま、輪の中に <b id="count">9</b> 人</p>
+    </div>
+    <div class="play-stage">
+      <svg id="ring" viewBox="0 0 600 600" role="img" aria-label="人の輪の図。押すと一人ずつ輪に加わります" data-cursor="押す">
+        <defs><g id="pp"><circle cy="-8" r="7"/><path d="M-13 14Q-13 1 0 1Q13 1 13 14Z"/></g></defs>
+        <circle class="ring-guide" cx="300" cy="300" r="110"/>
+        <circle class="ring-guide" cx="300" cy="300" r="162"/>
+        <circle class="ring-guide" cx="300" cy="300" r="214"/>
+        <circle class="ring-guide" cx="300" cy="300" r="266"/>
+        <g class="core"><circle cx="300" cy="300" r="72"/><text class="core-n" id="core-n" x="300" y="304">9</text><text class="core-l" x="300" y="334">人の輪</text></g>
+        <g id="people"></g>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ===== Chain of suffering ===== -->
+  <section class="sec chain" id="chain" aria-labelledby="chain-h">
+    <p class="tag">なくしたい苦しみ <span>CHAIN</span></p>
+    <h2 class="big-h" id="chain-h"><span class="ph">苦しみは、</span><span class="ph">教える人から</span><span class="ph">教わる人へ</span><span class="ph">連鎖する。</span></h2>
+    <p class="lede">誰かが悪いわけではありません。教える側も、教わる側も、それぞれの場所で一人で苦しんでいます。</p>
+    <div class="chain-progress" aria-hidden="true"><i></i></div>
+    <div class="chain-track">
+      <article class="pain">
+        <span class="pain-chip">営業の現場・教える側</span>
+        <p class="pain-who">営業人材の育成に悩む経営者・指導者</p>
+        <p class="pain-voice">「育て方を、誰にも教わってこなかった。だから、自分がされたやり方しか知らない。」</p>
+        <p class="pain-note">結果を出してきた人ほど、部下が同じようにできない理由が分からず、一人で抱え込みます。</p>
+      </article>
+      <div class="hop hand"><svg class="doodle" viewBox="0 0 64 26" aria-hidden="true"><path d="M2 14C20 6 40 20 58 12"/><path d="M50 5L60 12L51 20"/></svg><span>余裕のない指導が</span></div>
+      <article class="pain">
+        <span class="pain-chip">営業の現場・教わる側</span>
+        <p class="pain-who">自信を失った営業マン</p>
+        <p class="pain-voice">「否定され続けるうちに、自分はこの仕事に向いていないと思い込んでしまった。」</p>
+        <p class="pain-note">伸びる力があったのに、未熟な指導の下で可能性を閉じてしまう人がいます。</p>
+      </article>
+      <div class="hop hand"><svg class="doodle" viewBox="0 0 64 26" aria-hidden="true"><path d="M2 14C20 6 40 20 58 12"/><path d="M50 5L60 12L51 20"/></svg><span>チームの中でも</span></div>
+      <article class="pain">
+        <span class="pain-chip">スポーツの現場</span>
+        <p class="pain-who">レギュラーになれなかった選手</p>
+        <p class="pain-voice">「試合に出られなかった3年間で、自分には価値がないと覚えてしまった。」</p>
+        <p class="pain-note">ベンチにいた時間が、その人の価値を決めるわけではありません。</p>
+      </article>
+      <div class="hop hand"><svg class="doodle" viewBox="0 0 64 26" aria-hidden="true"><path d="M2 14C20 6 40 20 58 12"/><path d="M50 5L60 12L51 20"/></svg><span>そして、家庭でも</span></div>
+      <article class="pain">
+        <span class="pain-chip">家庭・教える側</span>
+        <p class="pain-who">初めての子育てに追われる親</p>
+        <p class="pain-voice">「親という仕事は初めて。余裕がないのに、正解は誰も教えてくれない。」</p>
+        <p class="pain-note">親もまた、支えを必要としている一人です。</p>
+      </article>
+      <div class="hop hand"><svg class="doodle" viewBox="0 0 64 26" aria-hidden="true"><path d="M2 14C20 6 40 20 58 12"/><path d="M50 5L60 12L51 20"/></svg><span>余裕のなさが、偏りになって</span></div>
+      <article class="pain">
+        <span class="pain-chip">家庭・教わる側</span>
+        <p class="pain-who">偏った教育を受けて育った子ども</p>
+        <p class="pain-voice">「親の不安をそのまま受け取って、自分を信じられないまま大人になった。」</p>
+        <p class="pain-note">その子が大人になり、今度は誰かを教える側に立ちます。</p>
+      </article>
+      <div class="hop hand"><svg class="doodle" viewBox="0 0 64 26" aria-hidden="true"><path d="M2 14C20 6 40 20 58 12"/><path d="M50 5L60 12L51 20"/></svg><span>この連鎖を</span></div>
+      <article class="pain pain-end">
+        <span class="pain-chip">HITORIMOがめざすこと</span>
+        <p class="pain-voice">経営者が一人で抱えなくなれば、部下は本来の力を発揮できる。</p>
+        <p class="pain-note">だから、まず教える側を支えます。自信をなくしてしまった人がいれば、もう一度前を向けるよう、一緒に。</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== Tape band ===== -->
+  <div class="tape" aria-hidden="true">
+    <div class="k-row"><div class="k-track">
+      <span class="k-group">誰一人として、置き去りにしない<i>✦</i>みんなで育てる<i>✦</i>誰一人として、置き去りにしない<i>✦</i>みんなで育てる<i>✦</i></span>
+      <span class="k-group">誰一人として、置き去りにしない<i>✦</i>みんなで育てる<i>✦</i>誰一人として、置き去りにしない<i>✦</i>みんなで育てる<i>✦</i></span>
+    </div></div>
+    <div class="k-row k-rev"><div class="k-track">
+      <span class="k-group k-outline">理解者がそばにいる<i>✦</i>居場所がある<i>✦</i>自分にもできる<i>✦</i>理解者がそばにいる<i>✦</i>居場所がある<i>✦</i>自分にもできる<i>✦</i></span>
+      <span class="k-group k-outline">理解者がそばにいる<i>✦</i>居場所がある<i>✦</i>自分にもできる<i>✦</i>理解者がそばにいる<i>✦</i>居場所がある<i>✦</i>自分にもできる<i>✦</i></span>
+    </div></div>
+  </div>
+
+  <!-- ===== Philosophy ===== -->
+  <section class="sec phil" id="philosophy" data-reveal>
+    <p class="tag">理念 <span>PHILOSOPHY</span></p>
+    <p class="phil-quote">誰一人として、<br><mark>置き去りにしない</mark><br>社会を創る。</p>
+    <div class="phil-main">
+      <div class="phil-prose">
+        <p>教育環境についていけず、「ついていけない」と烙印を押された人たち。その人たちが、自分の存在価値を認めてくれる場所を得られたら、自分にも、他人にも、社会にも良い選択ができるようになります。</p>
+        <p>人は、役に立つかどうかだけで見られることを望んでいません。価値観や想いを分かち合える場所でこそ、その人の「あるべき姿」が引き出され、幸せが大きくなります。</p>
+        <p>完璧な人も、完璧な社会もありません。だからこそ、より良い社会へ向かうために、誰にでも光が当たるべきだと考えています。</p>
+      </div>
+      <p class="aims-note hand">
+        <span>目指すのは、こんな社会。</span>
+        <svg class="doodle" viewBox="0 0 40 64" aria-hidden="true"><path d="M8 4C28 16 32 38 22 58"/><path d="M13 49L22 60L31 50"/></svg>
+      </p>
+      <ul class="aims">
+        <li>すべての人に、寄り添える社会。</li>
+        <li>理解者が、すぐ会える距離にいる社会。</li>
+        <li>居場所のない人に、居場所がある社会。</li>
+        <li>孤立が、人を追い詰めない社会。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== How ===== -->
+  <section class="sec" id="how">
+    <p class="tag">実現の方法 <span>HOW</span></p>
+    <h2 class="big-h"><span class="ph">そのために、</span><span class="ph">大切にすること。</span></h2>
+    <p class="lede">人は、出会う人によって変わります。だから、次の3つを大切にします。</p>
+    <div class="stack">
+      <article class="card3">
+        <p class="card3-no">01</p>
+        <h3 class="card3-t"><span class="ph">理想の指導者に、</span><span class="ph">会える。</span></h3>
+        <p class="card3-d">遠くから眺める傍観者としてではなく、話を聞いてもらえる距離で対話する。そうすれば、「あの人は特別だから」が「自分にもできる」に変わります。</p>
+      </article>
+      <article class="card3">
+        <p class="card3-no">02</p>
+        <h3 class="card3-t">居場所を、つくる。</h3>
+        <p class="card3-d">好きなことがあり、共感してくれる人や理解者に会える場所。人と比べて、自分を卑下しなくていい場所です。</p>
+      </article>
+      <article class="card3">
+        <p class="card3-no">03</p>
+        <h3 class="card3-t">みんなで、育てる。</h3>
+        <p class="card3-d">担任は一人、親も一人。それでは偏りが生まれるのも自然なことです。たくさんの先生、たくさんの大人に関われる仕組みをつくります。</p>
+      </article>
+    </div>
+
+    <div class="vs" data-reveal>
+      <div class="vs-box vs-now">
+        <p class="vs-label">いま</p>
+        <ul class="vs-list">
+          <li>担任の先生は一人</li>
+          <li>親は選べない</li>
+          <li>人と比べて、劣等感を抱く</li>
+        </ul>
+        <p class="vs-result">「あの人は特別。自分には無理だ。」</p>
+      </div>
+      <div class="vs-arrow" aria-hidden="true"><svg class="doodle" viewBox="0 0 72 30"><path d="M4 16C24 6 46 24 66 14"/><path d="M57 6L68 14L58 23"/></svg></div>
+      <div class="vs-box vs-goal">
+        <p class="vs-label">目指す姿</p>
+        <ul class="vs-list">
+          <li>たくさんの先生が見守る</li>
+          <li>たくさんの大人に関われる</li>
+          <li>理想の指導者と、対話できる</li>
+        </ul>
+        <p class="vs-result">「自分にも、できる。」</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Roadmap ===== -->
+  <section class="sec" id="roadmap">
+    <p class="tag">これから <span>ROADMAP</span></p>
+    <h2 class="big-h"><span class="ph">すべては、</span><span class="ph">つながっている。</span></h2>
+    <p class="lede">採用コストの削減も、売上の拡大も、目的ではなく手段です。部下が育ち、会社が伸びる。夢を叶えた人が、次の誰かを支える。その積み重ねが、誰一人として置き去りにしない社会につながっています。</p>
+    <ol class="road">
+      <li class="stop now">
+        <span class="stop-dot" aria-hidden="true"></span>
+        <span class="stop-when">いま</span><span class="here">現在地</span>
+        <p class="stop-t"><span class="ph">経営者と、</span><span class="ph">起業する人を支える</span></p>
+        <p class="stop-d">営業人材の育成に悩む経営者と、夢を叶えたい個人事業主に、信頼関係づくりと営業の力を届けます。</p>
+      </li>
+      <li class="stop">
+        <span class="stop-dot" aria-hidden="true"></span>
+        <span class="stop-when">次に</span>
+        <p class="stop-t"><span class="ph">相談し合える場を</span><span class="ph">つくる</span></p>
+        <p class="stop-d">育成に悩む経営者・リーダーが、一人で抱えずに相談し合える場をつくります。</p>
+      </li>
+      <li class="stop">
+        <span class="stop-dot" aria-hidden="true"></span>
+        <span class="stop-when">その先</span>
+        <p class="stop-t"><span class="ph">教育の現場へ</span><span class="ph">広げる</span></p>
+        <p class="stop-d">親・先生・スポーツ指導者へ。理想の指導者に会える場と、みんなで育てる仕組みを届けます。</p>
+      </li>
+      <li class="stop goal">
+        <span class="stop-dot" aria-hidden="true"></span>
+        <div class="stop-body">
+          <span class="stop-when">目指す社会</span>
+          <p class="stop-t"><span class="ph">誰一人として、</span><span class="ph">置き去りにしない</span></p>
+          <p class="stop-d">すべての人のそばに理解者がいて、居場所がある社会。</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ===== Founder ===== -->
+  <section class="sec founder" id="founder">
+    <p class="tag">代表メッセージ <span>FOUNDER</span></p>
+    <div>
+      <figure class="polaroid">
+        <img class="photo" src="komiya.webp" alt="代表 小宮直樹の写真" loading="lazy">
+        <figcaption>代表 小宮直樹</figcaption>
+      </figure>
+      <p class="f-name">小宮 直樹<span class="f-kana">こみや なおき</span></p>
+      <p class="f-role">HITORIMO 代表／元トップ営業</p>
+    </div>
+    <div>
+      <h2 class="letter-h">なぜ、私がやるのか</h2>
+      <div class="letter">
+        <p>教育の環境の中で、自分の存在価値を認めてもらえないまま過ごした時間があります。その経験が、いまの私の原点です。</p>
+        <p>親を責めるつもりはありません。親もまた、親としての教育を受ける機会がないまま、子育てをしていたのだと思うからです。</p>
+        <p>大人になり、トップ営業として結果を出しました。ところが、自分のやり方をそのまま部下に求めたとき、部下は育たず、離れていきました。そこで学んだのが、信頼には届く順番があるということです。</p>
+        <p>周りを見渡すと、同じように苦しむ人がたくさんいました。未熟な指導の下で自信を失った営業マン。レギュラーになれず、自分を責め続けた選手。余裕をなくした親と、その偏った教育を受けて育った子どもたち。</p>
+        <p>同じ苦しみを味わう人を、これ以上増やしたくない。目指すのは「誰一人として、置き去りにしない社会」です。一人では決して届かない、大きすぎる目標かもしれません。だからこそ、仲間が必要です。</p>
+        <p>そして私は、いま自分にできることから始めます。育成に一人で悩む経営者が変われば、部下は本来の力を発揮できる。私にできる唯一の強みは、営業の現場で培った「信頼関係を築く力」です。この力で経営者を支え、力を発揮できる人を一人でも増やしたい。夢を持って起業する人の力にもなりたい。その一つひとつが、目指す社会につながっていると信じています。</p>
+        <p class="sign" data-reveal>同じ想いを持つ<mark>あなたの力を、貸してください。</mark></p>
+      </div>
+      <ul class="beliefs">
+        <li><span class="belief-t">人は、利用価値より「価値観の共有」を求めている。</span><span class="belief-d">役に立つかどうかだけで見られる場所では、人は力を出せません。想いを分かち合える場所で、その人の「あるべき姿」が引き出されます。</span></li>
+        <li><span class="belief-t">「ここにいる価値」の大きさが、組織の価値を決める。</span><span class="belief-d">スタッフが「この会社での人生で得られる価値」を感じられる組織は、強くなります。</span></li>
+        <li><span class="belief-t">営業の仕組みと、人を育てる仕組みは、同じ原理で動いている。</span><span class="belief-d">相手を信じ、信頼が届く順番を守ること。トップ営業として学んだことは、そのまま人材育成に生きています。</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== Services ===== -->
+  <section class="sec" id="services">
+    <p class="tag">サービス一覧 <span>SERVICES</span></p>
+    <h2 class="big-h"><span class="ph">いま、</span><span class="ph">お届けしていること</span></h2>
+    <p class="lede">気になるサービスを押すと、詳しい内容が開きます。</p>
+    <div class="svc-grid">
+      <details class="svc svc-ai">
+        <summary data-cursor="開く">
+          <span class="ai-ghost" aria-hidden="true">AI</span>
+          <span class="ai-copy">
+            <span class="ai-tag"><b>NEW</b>AI事業</span>
+            <span class="svc-t"><span class="ph">AIを、</span><span class="ph">味方にする。</span></span>
+            <span class="svc-lead">AIの導入から、使いこなすまで。むずかしい話は抜きにして、現場で使える形にします。</span>
+            <span class="ai-prompt" aria-hidden="true"><span class="gt">&gt;</span><span><span id="ai-type">来週の会議資料の下書きを、作って</span><i class="ai-cursor"></i></span></span>
+            <span class="svc-more"><span class="m-open">詳しく見る</span><span class="m-close">閉じる</span></span>
+          </span>
+          <span class="ai-vis" aria-hidden="true">
+            <span class="ai-spark s1">✦</span><span class="ai-spark s2">✦</span><span class="ai-spark s3">✦</span>
+            <svg viewBox="0 0 380 300"><g class="ai-edges"></g><g class="ai-nodes"></g><g class="ai-pulses"></g></svg>
+          </span>
+        </summary>
+        <div class="svc-body">
+          <p class="svc-h">こんなことができます</p>
+          <ul class="svc-list">
+            <li><b>仕事にAIを組み込む</b>：資料づくり、要約、問い合わせ対応など、時間のかかる作業をAIに任せる仕組みをつくる</li>
+            <li><b>使いこなせる人を育てる</b>：むずかしい専門用語は使わず、現場の人がその日から使えるようになる</li>
+            <li><b>御社専用のAIをつくる</b>：御社のやり方や言葉づかいに合わせた、専用のAIツールを形にする</li>
+          </ul>
+          <p class="svc-why"><b>AIを使える人と、使えない人。その差で、誰も置き去りにしない。</b>AIは、一部の人だけの道具ではありません。誰でも使える形にして、届けます。</p>
+          <p class="svc-price">料金：<b>お問い合わせください</b></p>
+          <a class="svc-link" href="#contact" data-cursor="話す">このサービスについて相談する</a>
+        </div>
+      </details>
+      <details class="svc">
+        <summary data-cursor="開く">
+          <span class="svc-for">経営者の方へ</span>
+          <span class="svc-t">営業組織の顧問</span>
+          <span class="svc-lead">継続的に関わり、社長の「分身」となるリーダーを育てます。</span>
+          <span class="svc-more"><span class="m-open">詳しく見る</span><span class="m-close">閉じる</span></span>
+        </summary>
+        <div class="svc-body">
+          <p class="svc-h">内容</p>
+          <ul class="svc-list">
+            <li><b>信頼関係づくり</b>：部下が本音で話し、自ら動くようになる関係の築き方</li>
+            <li><b>営業スキル</b>：トップ営業として結果を出してきた、実践の技術</li>
+            <li><b>分身の育成</b>：社長と同じ意識で考え、動けるリーダーを育てる</li>
+          </ul>
+          <p class="svc-price">関わり方：継続的に伴走し、組織の変化に合わせて進めます。<br>料金：<b>お問い合わせください</b></p>
+          <a class="svc-link" href="#contact" data-cursor="話す">このサービスについて相談する</a>
+        </div>
+      </details>
+      <details class="svc">
+        <summary data-cursor="開く">
+          <span class="svc-for">経営者の方へ</span>
+          <span class="svc-t"><span class="ph">営業人材育成</span><span class="ph">コンサルティング</span></span>
+          <span class="svc-lead">期間を決めて、信頼関係づくりと営業スキルを集中的に身につけます。</span>
+          <span class="svc-more"><span class="m-open">詳しく見る</span><span class="m-close">閉じる</span></span>
+        </summary>
+        <div class="svc-body">
+          <p class="svc-h">内容</p>
+          <ul class="svc-list">
+            <li><b>課題の整理</b>：育成のどこでつまずいているのかを見極め、何から変えるかを決める</li>
+            <li><b>研修と実践</b>：信頼関係づくりと営業スキルを、現場で使える形で身につける</li>
+            <li><b>仕組みづくり</b>：社内で人が育ち続ける仕組みを残す</li>
+          </ul>
+          <p class="svc-price">関わり方：期間を決めて、課題に集中して取り組みます。<br>料金：<b>お問い合わせください</b></p>
+          <a class="svc-link" href="#contact" data-cursor="話す">このサービスについて相談する</a>
+        </div>
+      </details>
+      <details class="svc">
+        <summary data-cursor="開く">
+          <span class="svc-for">経営者の方へ</span>
+          <span class="svc-t">理念構築ワークショップ</span>
+          <span class="svc-lead">経営者の想いを、理念・ビジョン・ミッションの言葉にします。</span>
+          <span class="svc-more"><span class="m-open">詳しく見る</span><span class="m-close">閉じる</span></span>
+        </summary>
+        <div class="svc-body">
+          <p class="svc-h">内容</p>
+          <ul class="svc-list">
+            <li><b>想いを言葉にする</b>：なぜこの会社をやっているのかを掘り下げる</li>
+            <li><b>形に整える</b>：理念・ビジョン・ミッションとしてまとめる</li>
+            <li><b>浸透させる</b>：社員に伝わり、行動につながる仕組みをつくる</li>
+          </ul>
+          <p class="svc-price">料金：<b>お問い合わせください</b></p>
+          <a class="svc-link" href="#contact" data-cursor="話す">このサービスについて相談する</a>
+        </div>
+      </details>
+      <details class="svc">
+        <summary data-cursor="開く">
+          <span class="svc-for">経営者の方へ</span>
+          <span class="svc-t">リピート率アップ</span>
+          <span class="svc-catch">「沈黙の客離れ」を防ぐ。</span>
+          <span class="svc-lead">利害関係のない第三者が、お客様の本音を聴き出します。リピートされない原因を見つけ、リピート率アップにつなげます。</span>
+          <span class="svc-more"><span class="m-open">詳しく見る</span><span class="m-close">閉じる</span></span>
+        </summary>
+        <div class="svc-body">
+          <p class="svc-h">なぜ、代行なのか</p>
+          <p class="svc-p">お客様は、会社から直接聞かれると、なかなか本音を言えません。関係を気にして、不満を飲み込んでしまうからです。利害関係のない第三者だからこそ、言いにくい本音まで聞き出せます。</p>
+          <p class="svc-h">アンケートで見つけること</p>
+          <ul class="svc-list">
+            <li><b>リピートされない原因</b>：満たされない不満、期待外れ、黙って離れていく本当の理由</li>
+            <li><b>リピートされる理由</b>：お客様が何度も選んでくれる理由</li>
+            <li><b>盲点</b>：気づけなかった商品・サービスの弱点や、誤解を招いている点</li>
+            <li><b>強み</b>：何に支持されているのか</li>
+          </ul>
+          <p class="svc-h">得られること</p>
+          <ul class="svc-list">
+            <li>リピート率アップにつながる改善点がわかる</li>
+            <li>強みがはっきりし、他社との差別化が加速する</li>
+            <li>満足度の高い商品開発のヒントが見つかる</li>
+            <li>口コミが生まれ、クレームを減らす土台ができる</li>
+          </ul>
+          <p class="svc-why"><b>泣き寝入りのお客様を、置き去りにしない。</b>声を上げられずに離れていったお客様の不満を拾い、企業との関係をもう一度つなぎ直します。リピートされる会社は、ターゲットにぴたりと合い、社会に必要とされている証拠です。それが、より良い社会への貢献につながります。</p>
+          <p class="svc-price">料金：<b>お問い合わせください</b></p>
+          <a class="svc-link" href="#contact" data-cursor="話す">このサービスについて相談する</a>
+        </div>
+      </details>
+      <details class="svc">
+        <summary data-cursor="開く">
+          <span class="svc-for biz">個人事業主・起業したい方へ</span>
+          <span class="svc-t">あなたの夢を叶える起業支援</span>
+          <span class="svc-lead">夢を持つ一人を、置き去りにしない。集客からセールスまで、一緒に形にします。</span>
+          <span class="svc-more"><span class="m-open">詳しく見る</span><span class="m-close">閉じる</span></span>
+        </summary>
+        <div class="svc-body">
+          <p class="svc-h">内容</p>
+          <ul class="svc-list">
+            <li><b>集客</b>：あなたを必要としている人に、見つけてもらう仕組みをつくる</li>
+            <li><b>商品設計</b>：想いと強みを、選ばれる商品のかたちにする</li>
+            <li><b>導線づくり</b>：出会いから申し込みまで、自然につながる流れをつくる</li>
+            <li><b>セールス</b>：押し売りではなく、信頼で選ばれる売り方を身につける</li>
+          </ul>
+          <p class="svc-price">料金：<b>お問い合わせください</b></p>
+          <a class="svc-link" href="#contact" data-cursor="話す">このサービスについて相談する</a>
+        </div>
+      </details>
+    </div>
+
+    <div class="gain">
+      <span class="gain-chip">経営者の方が得られること</span>
+      <p class="gain-t">人が育つと、会社が変わる。</p>
+      <ul class="gain-list">
+        <li>採用コストの削減（人が辞めない組織へ）</li>
+        <li>指導・教育コストの削減</li>
+        <li>育成にかかる時間の短縮</li>
+        <li>社長の時間が生まれ、より上の仕事に集中できる</li>
+        <li>会社を大きくし、売上を伸ばす土台ができる</li>
+      </ul>
+      <p class="gain-note">成果は、組織の状況によって異なります。</p>
+    </div>
+
+    <div class="soon">
+      <p class="soon-t">これから（準備中）</p>
+      <ul class="soon-list">
+        <li>育成に悩む経営者・リーダーが、相談し合える場</li>
+        <li>親・先生・スポーツ指導者向けのプログラム</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== Record ===== -->
+  <section class="sec" id="record" hidden>
+    <p class="tag">実績 <span>RECORD</span></p>
+    <h2 class="big-h"><span class="ph">これから、</span><span class="ph">実績をつくります。</span></h2>
+    <p class="lede">HITORIMOは立ち上げたばかりです。これから生まれる変化を、ここに記録していきます。</p>
+    <div class="slots">
+      <div class="slot"><p class="slot-t">導入企業の声</p><div class="slot-bar"></div><div class="slot-bar short"></div><span class="slot-stamp">準備中</span></div>
+      <div class="slot"><p class="slot-t">部下の変化</p><div class="slot-bar"></div><div class="slot-bar short"></div><span class="slot-stamp">準備中</span></div>
+      <div class="slot"><p class="slot-t">活動の記録</p><div class="slot-bar"></div><div class="slot-bar short"></div><span class="slot-stamp">準備中</span></div>
+    </div>
+  </section>
+
+  <!-- ===== Tape band ===== -->
+  <div class="tape tape-ink" aria-hidden="true">
+    <div class="k-row"><div class="k-track">
+      <span class="k-group">人を育てる人も、夢を追う人も、一人にしない<i>✦</i>人を育てる人も、夢を追う人も、一人にしない<i>✦</i></span>
+      <span class="k-group">人を育てる人も、夢を追う人も、一人にしない<i>✦</i>人を育てる人も、夢を追う人も、一人にしない<i>✦</i></span>
+    </div></div>
+    <div class="k-row k-rev"><div class="k-track">
+      <span class="k-group k-outline">ここから、一緒に<i>✦</i>HITORIMO<i>✦</i>ここから、一緒に<i>✦</i>HITORIMO<i>✦</i>ここから、一緒に<i>✦</i>HITORIMO<i>✦</i></span>
+      <span class="k-group k-outline">ここから、一緒に<i>✦</i>HITORIMO<i>✦</i>ここから、一緒に<i>✦</i>HITORIMO<i>✦</i>ここから、一緒に<i>✦</i>HITORIMO<i>✦</i></span>
+    </div></div>
+  </div>
+
+  <!-- ===== Contact ===== -->
+  <section class="sec" id="contact">
+    <div class="contact-box">
+      <p class="tag">お問い合わせ <span>CONTACT</span></p>
+      <h2 class="big-h"><span class="ph">まずは、</span><span class="ph">話を聞かせてください。</span></h2>
+      <p class="lede">どのご相談も、お話を伺うところから始めます。</p>
+      <div class="options">
+        <a class="opt opt-main" href="/booking" data-cursor="予約">
+          <span><span class="opt-t">初回相談（無料）を予約する</span><span class="opt-d">経営者・個人事業主の方へ。人材育成、リピート率、起業の悩みを伺います。</span></span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="opt" href="mailto:info@goodrelationship.net?subject=%E4%BB%B2%E9%96%93%E3%81%A8%E3%81%97%E3%81%A6%E9%96%A2%E3%82%8F%E3%82%8A%E3%81%9F%E3%81%84" data-cursor="入る">
+          <span><span class="opt-t">仲間として関わる</span><span class="opt-d">ビジョンに共感し、一緒に社会を創りたい方へ。</span></span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="opt" href="mailto:info@goodrelationship.net?subject=%E3%83%A1%E3%83%BC%E3%83%AB%E3%81%A7%E3%81%AE%E3%81%94%E7%9B%B8%E8%AB%87" data-cursor="書く">
+          <span><span class="opt-t">メールで相談する</span><span class="opt-d">まずは文章で、気軽に相談したい方へ。info@goodrelationship.net</span></span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="sec" id="faq">
+    <p class="tag">FAQ <span>QUESTIONS</span></p>
+    <h2 class="big-h">よくある質問</h2>
+    <div class="faq-tabs" role="tablist" aria-label="質問の対象">
+      <button class="faq-tab" type="button" role="tab" id="tab-exec" aria-controls="faq-exec" aria-selected="true">経営者の方</button>
+      <button class="faq-tab" type="button" role="tab" id="tab-biz" aria-controls="faq-biz" aria-selected="false" tabindex="-1">起業したい方</button>
+      <button class="faq-tab" type="button" role="tab" id="tab-parent" aria-controls="faq-parent" aria-selected="false" tabindex="-1">親の方</button>
+      <button class="faq-tab" type="button" role="tab" id="tab-edu" aria-controls="faq-edu" aria-selected="false" tabindex="-1">教育関係者の方</button>
+      <button class="faq-tab" type="button" role="tab" id="tab-about" aria-controls="faq-about" aria-selected="false" tabindex="-1">HITORIMOについて</button>
+    </div>
+    <div class="faq" id="faq-exec" role="tabpanel" aria-labelledby="tab-exec">
+      <details><summary>費用はどのくらいですか？</summary><p>状況や内容によって変わるため、お問い合わせください。初回相談は無料です。</p></details>
+      <details><summary>顧問とコンサルティングは、何が違いますか？</summary><p>顧問は、継続的に関わり、組織の変化に合わせて伴走します。コンサルティングは、期間を決めて、課題に集中して取り組みます。</p></details>
+      <details><summary>「リピート率アップ」は、どのように進めますか？</summary><p>対象のお客様と聞きたいことを一緒に決めたうえで、御社に代わってアンケートを行い、結果をまとめてお伝えします。詳しい進め方は、初回相談でご提案します。</p></details>
+      <details><summary>どんな業種でも相談できますか？</summary><p>営業に関わる人材の育成であれば、業種を問わずご相談ください。</p></details>
+      <details><summary>コンサルティングの期間はどのくらいですか？</summary><p>組織の状況によって変わります。初回の無料相談でお話を伺い、期間と進め方をご提案します。</p></details>
+      <details><summary>理念構築はどのように進めますか？</summary><p>経営者ご自身の想いを言葉にするところから始め、理念・ビジョン・ミッションの形に整えます。そのうえで、社内に浸透させる仕組みまで一緒につくります。</p></details>
+    </div>
+    <div class="faq" id="faq-biz" role="tabpanel" aria-labelledby="tab-biz" hidden>
+      <details><summary>まだ商品がなくても相談できますか？</summary><p>はい。想いと強みを整理し、商品のかたちにするところから一緒に考えます。</p></details>
+      <details><summary>副業からでも大丈夫ですか？</summary><p>大丈夫です。今の状況に合わせて、無理のない進め方を一緒に考えます。</p></details>
+      <details><summary>費用はどのくらいですか？</summary><p>内容によって変わるため、お問い合わせください。初回相談は無料です。</p></details>
+    </div>
+    <div class="faq" id="faq-parent" role="tabpanel" aria-labelledby="tab-parent" hidden>
+      <details><summary>子ども向けのプログラムはありますか？</summary><p>いまは準備中です。「ついていけない」と感じている子どもが、自分の存在価値を認めてもらえる居場所と、その子に合った育成を届けていきます。親の方向けのプログラムも用意していきます。</p></details>
+      <details><summary>学校との併用はできますか？</summary><p>はい。HITORIMOは学校と競うものではなく、学校と並ぶ新しい選択肢として存在します。</p></details>
+      <details><summary>どのくらいの期間で効果が出ますか？</summary><p>変化の早さは、一人ひとり違います。まずは状況を伺い、その子に合ったペースを一緒に考えます。</p></details>
+    </div>
+    <div class="faq" id="faq-edu" role="tabpanel" aria-labelledby="tab-edu" hidden>
+      <details><summary>学校教育とは、どう違うのですか？</summary><p>学校に代わるものではありません。学校についていけないと感じた子どもや、その周りの大人のための、新しい選択肢です。</p></details>
+      <details><summary>先生たちが学ぶ機会はありますか？</summary><p>教師向けのプログラムを、これから用意していきます。子育ての経験がない先生も、一緒に学べる場にします。</p></details>
+    </div>
+    <div class="faq" id="faq-about" role="tabpanel" aria-labelledby="tab-about" hidden>
+      <details><summary>HITORIMOとは、何ですか？</summary><p>「誰一人として、置き去りにしない社会を創る」ことを目指す活動です。いまは、営業人材の育成に悩む経営者と、夢を叶えたい個人事業主を支えるところから始めています。</p></details>
+      <details><summary>コミュニティはありますか？</summary><p>いまは準備中です。育成に悩む経営者・リーダーが、一人で抱えずに相談し合える場を、これからつくっていきます。</p></details>
+      <details><summary>相談した内容が、外に漏れることはありませんか？</summary><p>ご相談の内容を、ご本人の許可なく外に出すことはありません。</p></details>
+    </div>
+  </section>
+</div>
+
+<!-- ===== Footer (curtain reveal) ===== -->
+<div class="f-curtain">
+  <footer class="foot">
+    <div class="foot-top">
+      <p class="foot-h">ここから、<br>一緒に。</p>
+      <div class="foot-row">
+        <a class="fbtn fbtn-dark" href="#contact" data-cursor="話す">相談する</a>
+        <a class="fbtn fbtn-light" href="#services" data-cursor="見る">サービス一覧</a>
+      </div>
+      <nav class="foot-links" aria-label="ページ内リンク">
+        <a href="#chain">苦しみの連鎖</a>
+        <a href="#philosophy">理念</a>
+        <a href="#how">実現の方法</a>
+        <a href="#founder">代表メッセージ</a>
+        <a href="#faq">よくある質問</a>
+      </nav>
+      <p class="foot-contact">お問い合わせ：<a href="mailto:info@goodrelationship.net">info@goodrelationship.net</a>　／　<a href="/privacy">プライバシーポリシー</a></p>
+    </div>
+    <p class="foot-giant" aria-hidden="true">HITORIMO</p>
+    <div class="foot-bottom">
+      <span>© 2026 HITORIMO</span>
+      <span>この社会を <span class="heart" aria-hidden="true">♥</span> <b>みんな</b>で創る</span>
+      <button class="to-top" type="button" id="to-top" aria-label="ページの先頭へ戻る" data-cursor="上へ">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 10l7-7 7 7M12 3v18"/></svg>
+      </button>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---------- Playground: people join the circle; everyone shifts to make room ----------
+  var NS = 'http://www.w3.org/2000/svg';
+  var svg = document.getElementById('ring');
+  var layer = document.getElementById('people');
+  var countEl = document.getElementById('count');
+  var coreN = document.getElementById('core-n');
+  var joinBtn = document.getElementById('join');
+  var joinFull = document.getElementById('join-full');
+  var C = 300, R0 = 110, GAP = 52, SPACING = 44, MAX = 100, AUTO_LIMIT = 16;
+  var caps = [];
+  for (var k = 0; k < 4; k++) caps.push(Math.floor(2 * Math.PI * (R0 + k * GAP) / SPACING));
+  var people = [];
+
+  function slots(n) {
+    var out = [], left = n, ring = 0;
+    while (left > 0 && ring < caps.length) {
+      var m = Math.min(left, caps[ring]);
+      var r = R0 + ring * GAP, off = -Math.PI / 2 + ring * 0.35;
+      for (var i = 0; i < m; i++) {
+        var a = off + i * 2 * Math.PI / m;
+        out.push([C + r * Math.cos(a), C + r * Math.sin(a)]);
+      }
+      left -= m; ring++;
+    }
+    return out;
+  }
+
+  function relayout() {
+    var s = slots(people.length);
+    people.forEach(function (p, i) { p.tx = s[i][0]; p.ty = s[i][1]; });
+    countEl.textContent = people.length;
+    coreN.textContent = people.length;
+    if (people.length >= MAX) { joinBtn.hidden = true; joinFull.hidden = false; }
+  }
+
+  function outside() {
+    var a = Math.random() * Math.PI * 2;
+    return [C + 380 * Math.cos(a), C + 380 * Math.sin(a)];
+  }
+
+  // The view widens as outer rings start to fill, so a small circle never looks lost
+  function viewTarget() {
+    var left = people.length, ring = 0;
+    while (ring < caps.length - 1 && left > caps[ring]) { left -= caps[ring]; ring++; }
+    return R0 + ring * GAP + 70;
+  }
+  var viewH = 0, running = false, last = 0;
+
+  function draw(t) {
+    var dt = Math.min(0.05, last ? (t - last) / 1000 : 0.016);
+    last = t;
+    var k = reduce ? 1 : 1 - Math.exp(-dt * 3.2);
+    var vt = viewTarget();
+    viewH = viewH ? viewH + (vt - viewH) * k : vt;
+    var v0 = (C - viewH).toFixed(1), vs = (2 * viewH).toFixed(1);
+    svg.setAttribute('viewBox', v0 + ' ' + v0 + ' ' + vs + ' ' + vs);
+    people.forEach(function (p) {
+      p.x += (p.tx - p.x) * k;
+      p.y += (p.ty - p.y) * k;
+      p.s += (1 - p.s) * k;
+      if (p.kind === 'lone' && Math.abs(p.tx - p.x) + Math.abs(p.ty - p.y) < 4) { p.kind = 'ink'; p.el.setAttribute('class', 'pp-ink'); }
+      var bob = reduce ? 0 : Math.sin(t / 650 + p.ph) * 2.2;
+      p.el.setAttribute('transform', 'translate(' + p.x.toFixed(1) + ' ' + (p.y + bob).toFixed(1) + ') scale(' + p.s.toFixed(3) + ')');
+    });
+  }
+  function loop(t) { draw(t); if (running) requestAnimationFrame(loop); }
+
+  function add(kind, from) {
+    if (people.length >= MAX) return;
+    var el = document.createElementNS(NS, 'use');
+    el.setAttribute('href', '#pp');
+    el.setAttribute('class', kind === 'you' ? 'pp-you' : kind === 'lone' ? 'pp-lone' : 'pp-ink');
+    layer.appendChild(el);
+    people.push({ el: el, x: from[0], y: from[1], tx: 0, ty: 0, s: kind === 'seed' ? 1 : 0.3, kind: kind, ph: Math.random() * 6.283 });
+    relayout();
+    if (!running) draw(performance.now());
+  }
+
+  for (var i = 0; i < 9; i++) add('seed', [C, C]);
+  people.forEach(function (p) { p.x = p.tx; p.y = p.ty; });
+  draw(performance.now());
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      var on = entries[0].isIntersecting;
+      if (on && !running) { running = true; last = 0; requestAnimationFrame(loop); }
+      running = on;
+    }).observe(svg);
+  }
+
+  joinBtn.addEventListener('click', function () { add('you', outside()); });
+  svg.addEventListener('click', function (e) {
+    var m = svg.getScreenCTM();
+    if (!m) { add('you', outside()); return; }
+    var pt = svg.createSVGPoint();
+    pt.x = e.clientX; pt.y = e.clientY;
+    var p = pt.matrixTransform(m.inverse());
+    add('you', [p.x, p.y]);
+  });
+  if (!reduce) {
+    setInterval(function () { if (running && people.length < AUTO_LIMIT) add('lone', outside()); }, 7000);
+  }
+
+  // ---------- Stamp: slow spin, faster on hover, a whirl on click ----------
+  var rot = document.getElementById('stamp-rot');
+  var stamp = document.querySelector('.stamp');
+  var ang = 0, speed = 22, target = 22, lastS = 0;
+  stamp.addEventListener('mouseenter', function () { target = 150; });
+  stamp.addEventListener('mouseleave', function () { target = 22; });
+  stamp.addEventListener('click', function () {
+    if (reduce) { ang = (ang + 45) % 360; rot.setAttribute('transform', 'rotate(' + ang + ' 100 100)'); return; }
+    speed = 900;
+  });
+  function spin(t) {
+    var dt = Math.min(0.05, lastS ? (t - lastS) / 1000 : 0.016);
+    lastS = t;
+    speed += (target - speed) * (1 - Math.exp(-dt * 2.5));
+    ang = (ang + speed * dt) % 360;
+    rot.setAttribute('transform', 'rotate(' + ang.toFixed(2) + ' 100 100)');
+    requestAnimationFrame(spin);
+  }
+  if (!reduce) requestAnimationFrame(spin);
+
+  // ---------- Marks and strikes start when their block arrives ----------
+  var reveals = document.querySelectorAll('[data-reveal]');
+  if ('IntersectionObserver' in window) {
+    var rio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); rio.unobserve(e.target); } });
+    }, { threshold: 0.25 });
+    Array.prototype.forEach.call(reveals, function (el) { rio.observe(el); });
+  } else {
+    Array.prototype.forEach.call(reveals, function (el) { el.classList.add('in'); });
+  }
+
+  // ---------- Roadmap: the traveller runs from "いま" to the goal ----------
+  var road = document.querySelector('.road');
+  function roadMetrics() {
+    var goal = road.querySelector('.goal .stop-dot');
+    var rr = road.getBoundingClientRect(), gr = goal.getBoundingClientRect();
+    road.style.setProperty('--gx', (gr.left - rr.left + gr.width / 2) + 'px');
+    road.style.setProperty('--gy', (gr.top - rr.top + gr.height / 2) + 'px');
+  }
+  roadMetrics();
+  window.addEventListener('resize', roadMetrics);
+
+  // ---------- FAQ audience tabs ----------
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.faq-tab'));
+  function selectTab(tab) {
+    tabs.forEach(function (t) {
+      var on = t === tab;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+  }
+  tabs.forEach(function (tab, i) {
+    tab.addEventListener('click', function () { selectTab(tab); });
+    tab.addEventListener('keydown', function (e) {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      var next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+      selectTab(next);
+      next.focus();
+    });
+  });
+
+  document.getElementById('to-top').addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+  });
+
+  // ---------- Custom cursor (mouse only) ----------
+  if (window.matchMedia('(pointer: fine)').matches && !reduce) {
+    var cur = document.querySelector('.cursor');
+    var label = cur.querySelector('span');
+    root.classList.add('has-cursor');
+    var mx = -100, my = -100, cx = -100, cy = -100;
+    window.addEventListener('mousemove', function (e) { mx = e.clientX; my = e.clientY; cur.style.opacity = '1'; });
+    document.addEventListener('mouseleave', function () { cur.style.opacity = '0'; });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-cursor]'), function (el) {
+      el.addEventListener('mouseenter', function () { label.textContent = el.getAttribute('data-cursor'); cur.classList.add('big'); });
+      el.addEventListener('mouseleave', function () { cur.classList.remove('big'); });
+    });
+    (function follow() {
+      cx += (mx - cx) * 0.22;
+      cy += (my - cy) * 0.22;
+      cur.style.transform = 'translate(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px)';
+      requestAnimationFrame(follow);
+    })();
+  }
+
+  // ---------- AI card: a small neural net that keeps firing, and a prompt that types itself ----------
+  (function () {
+    var svgEl = document.querySelector('.ai-vis svg');
+    if (!svgEl) return;
+    var SN = 'http://www.w3.org/2000/svg';
+    var counts = [3, 5, 5, 2], xs = [46, 140, 234, 334], HH = 300;
+    var cols = counts.map(function (n, li) {
+      var col = [];
+      for (var i = 0; i < n; i++) col.push({ x: xs[li], y: HH / (n + 1) * (i + 1), r: li === 0 || li === 3 ? 10 : 8 });
+      return col;
+    });
+    function mk(tag, attrs, parent) {
+      var e = document.createElementNS(SN, tag);
+      for (var k in attrs) e.setAttribute(k, attrs[k]);
+      parent.appendChild(e);
+      return e;
+    }
+    var gE = svgEl.querySelector('.ai-edges'), gN = svgEl.querySelector('.ai-nodes'), gP = svgEl.querySelector('.ai-pulses');
+    cols.forEach(function (col, li) {
+      if (!cols[li + 1]) return;
+      col.forEach(function (a) { cols[li + 1].forEach(function (b) { mk('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y }, gE); }); });
+    });
+    cols.forEach(function (col) { col.forEach(function (n) { n.el = mk('circle', { cx: n.x, cy: n.y, r: n.r }, gN); }); });
+
+    var typeEl = document.getElementById('ai-type');
+    if (reduce || !('IntersectionObserver' in window)) return;
+
+    var seen = false;
+    new IntersectionObserver(function (es) { seen = es[0].isIntersecting; }).observe(svgEl);
+    var canAnimate = typeof svgEl.animate === 'function';
+
+    function flash(n) {
+      if (!canAnimate) return;
+      n.el.animate([{ fill: 'var(--accent)', transform: 'scale(1.55)' }, { fill: 'var(--ai-bg)', transform: 'scale(1)' }], { duration: 750, easing: 'ease-out' });
+    }
+    function fire() {
+      if (!seen || document.hidden || !canAnimate) return;
+      var path = cols.map(function (col) { return col[Math.floor(Math.random() * col.length)]; });
+      var dot = mk('circle', { r: 5 }, gP);
+      var i = 0;
+      flash(path[0]);
+      (function step() {
+        var a = path[i], b = path[i + 1];
+        if (!b) { dot.remove(); return; }
+        var anim = dot.animate(
+          [{ transform: 'translate(' + a.x + 'px,' + a.y + 'px)' }, { transform: 'translate(' + b.x + 'px,' + b.y + 'px)' }],
+          { duration: 380, easing: 'ease-in-out', fill: 'forwards' }
+        );
+        anim.onfinish = function () { flash(b); i++; step(); };
+      })();
+    }
+    setInterval(fire, 700);
+
+    if (typeEl) {
+      var phrases = ['来週の会議資料の下書きを、作って', 'お客様の声を、3つに要約して', '新人研修の台本、つくって', '離れたお客様に送る、お詫びの文面は？'];
+      var pi = 0, ci = 0, erasing = false;
+      (function tick() {
+        var wait = 70;
+        if (!seen) { wait = 400; }
+        else if (!erasing) {
+          ci++;
+          typeEl.textContent = phrases[pi].slice(0, ci);
+          if (ci >= phrases[pi].length) { erasing = true; wait = 2000; }
+        } else {
+          ci = Math.max(0, ci - 2);
+          typeEl.textContent = phrases[pi].slice(0, ci);
+          wait = 28;
+          if (ci === 0) { erasing = false; pi = (pi + 1) % phrases.length; wait = 450; }
+        }
+        setTimeout(tick, wait);
+      })();
+    }
+  })();
+
+  // ---------- Scroll-driven motion (GSAP) ----------
+  if (!root.classList.contains('js-motion')) return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Chain: horizontal pinned scroll on wide screens
+  gsap.matchMedia().add('(min-width: 900px)', function () {
+    var chain = document.querySelector('.chain');
+    var track = chain.querySelector('.chain-track');
+    var fill = chain.querySelector('.chain-progress i');
+    var dist = function () {
+      var pad = parseFloat(getComputedStyle(chain).paddingLeft) || 0;
+      return Math.max(0, track.scrollWidth - (chain.clientWidth - pad * 2));
+    };
+    gsap.to(track, {
+      x: function () { return -dist(); },
+      ease: 'none',
+      scrollTrigger: {
+        trigger: chain, start: 'top top', end: function () { return '+=' + dist(); },
+        pin: true, scrub: 1, invalidateOnRefresh: true,
+        onUpdate: function (self) { fill.style.transform = 'scaleX(' + self.progress.toFixed(3) + ')'; }
+      }
+    });
+  });
+
+  // How: a covered card sinks back as the next one stacks on top
+  var cards = gsap.utils.toArray('.card3');
+  cards.forEach(function (c, i) {
+    var next = cards[i + 1];
+    if (!next) return;
+    gsap.to(c, { scale: 0.94, filter: 'brightness(0.9)', ease: 'none', scrollTrigger: { trigger: next, start: 'top bottom', end: 'top 30%', scrub: true } });
+  });
+
+  // Tape bands: drift on their own, speed up and lean with scroll speed
+  var kLoops = [], kTracks = [];
+  gsap.utils.toArray('.k-row').forEach(function (row) {
+    var tr = row.querySelector('.k-track');
+    var rev = row.classList.contains('k-rev');
+    kLoops.push(gsap.fromTo(tr, { xPercent: rev ? -50 : 0 }, { xPercent: rev ? 0 : -50, duration: 40, ease: 'none', repeat: -1 }));
+    kTracks.push(tr);
+  });
+  var kBoost = 0, kDir = 1, kSkew = 0;
+  gsap.utils.toArray('.tape').forEach(function (band) {
+    ScrollTrigger.create({
+      trigger: band, start: 'top bottom', end: 'bottom top',
+      onUpdate: function (self) { kBoost = Math.min(Math.abs(self.getVelocity()) / 250, 8); kDir = self.direction; }
+    });
+  });
+  gsap.ticker.add(function () {
+    if (kBoost < 0.01 && kSkew === 0) return;
+    kBoost = kBoost < 0.01 ? 0 : kBoost * 0.93;
+    kSkew = -kBoost * 1.2 * kDir;
+    kLoops.forEach(function (l) { l.timeScale(1 + kBoost); });
+    gsap.set(kTracks, { skewX: kSkew });
+  });
+
+  // Keep scroll positions right when content height changes (FAQ tabs, opened details)
+  if (window.ResizeObserver) {
+    var lastH = 0, rt = 0;
+    new ResizeObserver(function (entries) {
+      var h = entries[0].contentRect.height;
+      if (Math.abs(h - lastH) < 2) return;
+      lastH = h;
+      clearTimeout(rt);
+      rt = setTimeout(function () { ScrollTrigger.refresh(); roadMetrics(); }, 250);
+    }).observe(document.querySelector('.page'));
+  }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { ScrollTrigger.refresh(); roadMetrics(); });
+})();
+</script>
+</body>
+</html>

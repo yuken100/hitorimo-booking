@@ -55,7 +55,7 @@ function CancelContent() {
         <p className="text-xl font-bold text-ink mb-2">キャンセルを承りました</p>
         <p className="text-ink">{info?.when}</p>
         <p className="text-muted mt-4">確認のメールをお送りしました。またご都合のよいときに、いつでもお声がけください。</p>
-        <a href="/" className="inline-block mt-6 px-4 py-2 border-2 border-ink rounded font-bold hover:bg-accent">
+        <a href="/booking" className="inline-block mt-6 px-4 py-2 border-2 border-ink rounded font-bold hover:bg-accent">
           別の日時を予約する
         </a>
       </div>
@@ -108,7 +108,9 @@ export default function CancelPage() {
   return (
     <div className="max-w-xl mx-auto px-4 py-12">
       <h1 className="text-3xl font-bold text-ink mb-2">
-        HITORI<span className="bg-accent">MO</span>
+        <a href="/">
+          HITORI<span className="bg-accent">MO</span>
+        </a>
       </h1>
       <h2 className="text-xl font-bold text-ink mb-8">ご予約のキャンセル</h2>
       <Suspense fallback={<p className="text-muted">読み込み中...</p>}>

@@ -18,9 +18,9 @@ const Section = ({ title, children }: { title: string; children: React.ReactNode
 export default function PrivacyPage() {
   return (
     <div className="max-w-2xl mx-auto px-4 py-12">
-      <p className="text-3xl font-bold text-ink">
+      <a href="/" className="text-3xl font-bold text-ink">
         HITORI<span className="bg-accent">MO</span>
-      </p>
+      </a>
       <h1 className="mt-6 text-3xl font-bold text-ink">プライバシーポリシー</h1>
       <p className="mt-6 text-ink leading-relaxed">
         HITORIMO（運営者：小宮 直樹。以下「当方」といいます）は、当方のウェブサイトおよびサービスをご利用になる方の個人情報を、次の方針に沿って大切に取り扱います。
@@ -90,8 +90,11 @@ export default function PrivacyPage() {
         </dl>
       </Section>
 
-      <Section title="8. 予約サイトの閲覧について">
-        <p>この予約サイトでは、アクセス解析ツールや広告のための追跡は使用していません。今後導入する場合は、この方針にその内容を記載します。</p>
+      <Section title="8. ウェブサイトの閲覧について">
+        <p>
+          本サイトは、文字のデザインや画面の動きを表示するために、外部の配信サービス（Google Fonts、cdnjs など）からフォントやプログラムを読み込んでいます。閲覧時には、IPアドレスなどが、これらの提供元に送信されることがあります。
+        </p>
+        <p>現在、アクセス解析ツールや広告のための追跡は使用していません。今後導入する場合は、この方針にその内容を記載します。</p>
       </Section>
 
       <Section title="9. 方針の変更">
@@ -103,9 +106,14 @@ export default function PrivacyPage() {
         <br />
         最終改定日：{REVISED_ON}
       </p>
-      <a href="/" className="inline-block mt-8 px-4 py-2 border-2 border-ink rounded font-bold hover:bg-accent">
-        予約ページへ戻る
-      </a>
+      <div className="mt-8 flex flex-wrap gap-3">
+        <a href="/" className="px-4 py-2 border-2 border-ink rounded font-bold hover:bg-accent">
+          トップへ戻る
+        </a>
+        <a href="/booking" className="px-4 py-2 border-2 border-ink rounded font-bold hover:bg-accent">
+          予約ページへ
+        </a>
+      </div>
     </div>
   );
 }
