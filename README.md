@@ -77,7 +77,7 @@ ADMIN_EMAIL="admin@goodrelationship.net"
 ```bash
 npm install
 npx prisma migrate dev --name init
-npx prisma db seed # (optional)
+node prisma/seed.mjs # (optional)
 ```
 
 ### 3. 開発サーバー起動
@@ -92,7 +92,7 @@ npm run dev
 
 ### 予約枠の作成
 
-`prisma/seed.ts` でサンプルデータを作成するか、DB 管理画面で直接作成:
+`prisma/seed.mjs` でサンプルデータを作成するか、DB 管理画面で直接作成:
 
 ```sql
 INSERT INTO "Slot" ("id", "startTime", "endTime", "status")
