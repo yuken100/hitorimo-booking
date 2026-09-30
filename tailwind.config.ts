@@ -12,6 +12,8 @@ const config: Config = {
         ink: '#141414',
         paper: '#FFFFFF',
         accent: '#FFE03A',
+        muted: '#6B6B6B',
+        soft: '#FFF6C2',
       },
     },
   },
