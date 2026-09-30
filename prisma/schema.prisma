@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 予約枠（スロット）
+model Slot {
+  id        String   @id @default(cuid())
+  startTime DateTime
+  endTime   DateTime
+  status    String   @default("OPEN") // OPEN, FULL, CANCELLED
+  bookings  Booking[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([startTime])
+  @@index([status])
+}
+
+// 予約
+model Booking {
+  id        String   @id @default(cuid())
+  slotId    String
+  slot      Slot     @relation(fields: [slotId], references: [id], onDelete: Cascade)
+
+  // 顧客情報
+  name      String
+  email     String
+  company   String?  // 会社名（任意）
+  message   String   @db.Text // 相談内容
+
+  // ステータス
+  status    String   @default("PENDING") // PENDING, CONFIRMED, CANCELLED
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slotId])
+  @@index([email])
+  @@index([status])
+}
