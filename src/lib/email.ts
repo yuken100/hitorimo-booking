@@ -7,6 +7,18 @@ interface EmailParams {
   html: string;
 }
 
+// サーバーは UTC で動くため、日本時間を明示する
+const formatJst = (date: Date) =>
+  date.toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' });
+
+const escapeHtml = (value: string) =>
+  value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
 export async function sendEmail({ to, subject, html }: EmailParams) {
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.EMAIL_FROM || 'noreply@goodrelationship.net';
@@ -58,19 +70,19 @@ export async function sendBookingConfirmationEmail({
   endTime: Date;
   message: string;
 }) {
-  const formattedStart = startTime.toLocaleString('ja-JP');
-  const formattedEnd = endTime.toLocaleString('ja-JP');
+  const formattedStart = formatJst(startTime);
+  const formattedEnd = formatJst(endTime);
 
   const html = `
     <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
       <h2>HITORIMO コンサルティング予約確認</h2>
-      <p>${name} 様</p>
+      <p>${escapeHtml(name)} 様</p>
       <p>ご予約いただきありがとうございます。</p>
       <hr />
       <h3>予約内容</h3>
       <p><strong>日時：</strong> ${formattedStart} ～ ${formattedEnd}</p>
       <p><strong>ご相談内容：</strong></p>
-      <p style="white-space: pre-wrap;">${message}</p>
+      <p style="white-space: pre-wrap;">${escapeHtml(message)}</p>
       <hr />
       <p>近々、担当者よりご連絡させていただきます。</p>
       <p style="color: #666; font-size: 12px;">
@@ -104,20 +116,20 @@ export async function sendAdminNotificationEmail({
   message: string;
   adminEmail: string;
 }) {
-  const formattedStart = startTime.toLocaleString('ja-JP');
-  const formattedEnd = endTime.toLocaleString('ja-JP');
+  const formattedStart = formatJst(startTime);
+  const formattedEnd = formatJst(endTime);
 
   const html = `
     <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
       <h2>新しい予約がありました</h2>
       <h3>顧客情報</h3>
-      <p><strong>名前：</strong> ${name}</p>
-      <p><strong>メール：</strong> ${email}</p>
-      ${company ? `<p><strong>会社名：</strong> ${company}</p>` : ''}
+      <p><strong>名前：</strong> ${escapeHtml(name)}</p>
+      <p><strong>メール：</strong> ${escapeHtml(email)}</p>
+      ${company ? `<p><strong>会社名：</strong> ${escapeHtml(company)}</p>` : ''}
       <h3>予約内容</h3>
       <p><strong>日時：</strong> ${formattedStart} ～ ${formattedEnd}</p>
       <p><strong>相談内容：</strong></p>
-      <p style="white-space: pre-wrap;">${message}</p>
+      <p style="white-space: pre-wrap;">${escapeHtml(message)}</p>
     </div>
   `;
 
