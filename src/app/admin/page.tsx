@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { EmailComposer, type SentEmail } from './EmailComposer';
 
 interface Booking {
   id: string;
@@ -104,6 +105,7 @@ export default function AdminPage() {
   const [password, setPassword] = useState('');
   const [slots, setSlots] = useState<Slot[]>([]);
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
+  const [sentEmails, setSentEmails] = useState<SentEmail[]>([]);
   const [message, setMessage] = useState<{ type: 'ok' | 'error'; text: string } | null>(null);
   const [busy, setBusy] = useState(false);
 
@@ -127,8 +129,12 @@ export default function AdminPage() {
   };
 
   const loadInquiries = async () => {
-    const res = await fetch('/api/admin/inquiries', { cache: 'no-store' });
-    if (res.ok) setInquiries(await res.json());
+    const [inq, sent] = await Promise.all([
+      fetch('/api/admin/inquiries', { cache: 'no-store' }),
+      fetch('/api/admin/emails', { cache: 'no-store' }),
+    ]);
+    if (inq.ok) setInquiries(await inq.json());
+    if (sent.ok) setSentEmails(await sent.json());
   };
 
   const setInquiryStatus = async (inquiry: Inquiry, status: Inquiry['status']) => {
@@ -350,13 +356,18 @@ export default function AdminPage() {
                   {jstDate(slot.startTime)} {jstTime(slot.startTime)}～{jstTime(slot.endTime)}
                 </p>
                 <BookingDetails booking={slot.bookings[0]} />
+                <EmailComposer
+                  target={{
+                    type: 'booking',
+                    id: slot.bookings[0].id,
+                    name: slot.bookings[0].name,
+                    email: slot.bookings[0].email,
+                    when: `${jstDate(slot.startTime)} ${jstTime(slot.startTime)}～${jstTime(slot.endTime)}`,
+                  }}
+                  history={sentEmails.filter((e) => e.bookingId === slot.bookings[0].id)}
+                  onSent={(email) => setSentEmails((prev) => [email, ...prev])}
+                />
                 <div className="mt-3 flex flex-wrap gap-2">
-                  <a
-                    href={`mailto:${slot.bookings[0].email}`}
-                    className="px-3 py-1 text-sm font-bold rounded border-2 border-ink bg-accent text-ink"
-                  >
-                    メールを送る
-                  </a>
                   <button
                     type="button"
                     onClick={() =>
@@ -399,13 +410,12 @@ export default function AdminPage() {
                   {inquiry.name} 様
                 </p>
                 <BookingDetails booking={inquiry} messageLabel="お問い合わせ内容" />
+                <EmailComposer
+                  target={{ type: 'inquiry', id: inquiry.id, name: inquiry.name, email: inquiry.email }}
+                  history={sentEmails.filter((e) => e.inquiryId === inquiry.id)}
+                  onSent={(email) => setSentEmails((prev) => [email, ...prev])}
+                />
                 <div className="mt-3 flex flex-wrap gap-2">
-                  <a
-                    href={`mailto:${inquiry.email}`}
-                    className="px-3 py-1 text-sm font-bold rounded border-2 border-ink bg-accent text-ink"
-                  >
-                    メールを送る
-                  </a>
                   <button
                     type="button"
                     onClick={() => setInquiryStatus(inquiry, inquiry.status === 'NEW' ? 'DONE' : 'NEW')}

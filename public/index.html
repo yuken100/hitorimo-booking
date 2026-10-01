@@ -73,6 +73,39 @@
   .nav .bar-cta:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--ink); }
   @media (max-width: 640px) { .nav a:not(.bar-cta) { display: none; } }
 
+  /* ---------- Table of contents (phones) ---------- */
+  html { scroll-padding-top: 84px; } /* keep jumped-to headings clear of the sticky header */
+  .toc-btn {
+    display: none; align-items: center; padding: 8px 16px; font: 700 14px/1 var(--body); color: var(--ink);
+    background: var(--paper); border: 3px solid var(--ink); border-radius: 999px; cursor: pointer;
+  }
+  @media (max-width: 640px) { .toc-btn { display: inline-flex; } }
+  .toc {
+    position: fixed; inset: 0; z-index: 60; overflow-y: auto; overscroll-behavior: contain;
+    padding: calc(env(safe-area-inset-top, 0px) + 14px) var(--gutter) 32px;
+    color: var(--ink); background: var(--paper);
+  }
+  .toc[hidden] { display: none; }
+  .toc-head { display: flex; align-items: center; justify-content: space-between; padding-bottom: 14px; border-bottom: 3px solid var(--ink); }
+  .toc-title { margin: 0; font-family: var(--display); font-weight: 400; font-size: 1.6rem; }
+  .toc-close {
+    width: 44px; height: 44px; font: 700 22px/1 var(--body); color: var(--on-accent);
+    background: var(--accent); border: 3px solid var(--ink); border-radius: 999px; cursor: pointer;
+  }
+  .toc-list { margin: 6px 0 0; padding: 0; list-style: none; }
+  .toc-list a {
+    display: flex; align-items: baseline; gap: 14px; padding: 15px 4px;
+    font-size: 18px; font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--soft);
+  }
+  .toc-list a:active { background: var(--accent); color: var(--on-accent); }
+  .toc-list .num { min-width: 2em; font-family: var(--latin); font-weight: 900; font-size: 13px; color: var(--muted); }
+  .toc-cta { display: grid; gap: 12px; margin-top: 24px; }
+  .toc-cta a {
+    padding: 14px; text-align: center; font-weight: 700; text-decoration: none; color: var(--ink);
+    border: 3px solid var(--ink); border-radius: 999px; box-shadow: 4px 4px 0 var(--ink);
+  }
+  .toc-cta a.main { color: var(--on-accent); background: var(--accent); }
+
   /* ---------- Shared section parts ---------- */
   .sec { padding-block: clamp(64px, 9vw, 130px); border-top: 3px solid var(--ink); }
   .tag { display: inline-flex; align-items: center; gap: 10px; margin: 0; padding: 6px 14px; border: 2px solid var(--ink); border-radius: 999px; font-size: 13px; font-weight: 700; }
@@ -520,9 +553,32 @@
       <a href="#how" data-cursor="読む">方法</a>
       <a href="#services" data-cursor="見る">サービス</a>
       <a href="#founder" data-cursor="読む">代表</a>
+      <button class="toc-btn" type="button" id="toc-btn" aria-controls="toc" aria-expanded="false">目次</button>
       <a class="bar-cta" href="#contact" data-cursor="話す">相談する</a>
     </nav>
   </header>
+
+  <div class="toc" id="toc" role="dialog" aria-modal="true" aria-labelledby="toc-title" hidden>
+    <div class="toc-head">
+      <p class="toc-title" id="toc-title">目次</p>
+      <button class="toc-close" type="button" id="toc-close" aria-label="目次を閉じる">×</button>
+    </div>
+    <ol class="toc-list">
+      <li><a href="#chain"><span class="num">01</span>なくしたい苦しみ</a></li>
+      <li><a href="#philosophy"><span class="num">02</span>理念</a></li>
+      <li><a href="#how"><span class="num">03</span>実現の方法</a></li>
+      <li><a href="#play"><span class="num">04</span>輪の中へ（体験）</a></li>
+      <li><a href="#roadmap"><span class="num">05</span>これから</a></li>
+      <li><a href="#founder"><span class="num">06</span>代表メッセージ</a></li>
+      <li><a href="#services"><span class="num">07</span>サービス一覧</a></li>
+      <li><a href="#contact"><span class="num">08</span>お問い合わせ</a></li>
+      <li><a href="#faq"><span class="num">09</span>よくある質問</a></li>
+    </ol>
+    <div class="toc-cta">
+      <a class="main" href="/booking">初回相談（無料）を予約する</a>
+      <a href="/contact">お問い合わせフォーム</a>
+    </div>
+  </div>
 
   <!-- ===== Hero ===== -->
   <section class="hero" id="top" aria-label="HITORIMO">
@@ -550,7 +606,7 @@
   </section>
 
   <!-- ===== Playground ===== -->
-  <section class="play" aria-labelledby="play-h">
+  <section class="play" id="play" aria-labelledby="play-h">
     <div class="play-copy">
       <h2 class="play-h" id="play-h">あなたも、<br>輪の中へ。</h2>
       <p class="play-p">ボタンを押すと、新しい一人が輪に加わります。輪の人たちは少しずつ詰めて、場所を空けます。</p>
@@ -1298,6 +1354,30 @@
   }
   roadMetrics();
   window.addEventListener('resize', roadMetrics);
+
+  // ---------- Table of contents (phones) ----------
+  var toc = document.getElementById('toc');
+  var tocBtn = document.getElementById('toc-btn');
+  var tocClose = document.getElementById('toc-close');
+  function openToc() {
+    toc.hidden = false;
+    tocBtn.setAttribute('aria-expanded', 'true');
+    document.documentElement.style.overflow = 'hidden';
+    tocClose.focus();
+  }
+  function closeToc(returnFocus) {
+    toc.hidden = true;
+    tocBtn.setAttribute('aria-expanded', 'false');
+    document.documentElement.style.overflow = '';
+    if (returnFocus) tocBtn.focus();
+  }
+  tocBtn.addEventListener('click', openToc);
+  tocClose.addEventListener('click', function () { closeToc(true); });
+  // Close first so the page can scroll, then let the link jump to its section
+  Array.prototype.forEach.call(toc.querySelectorAll('a'), function (a) {
+    a.addEventListener('click', function () { closeToc(false); });
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !toc.hidden) closeToc(true); });
 
   // ---------- "Join us" option: show the coming-soon note ----------
   var optJoinBtn = document.getElementById('opt-join');

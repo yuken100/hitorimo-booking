@@ -14,12 +14,15 @@ interface EmailParams {
   html: string;
   attachments?: Attachment[];
   replyTo?: string;
+  from?: string;
+  bcc?: string;
+  text?: string;
 }
 
 // 返信先を指定しない場合は、問い合わせ窓口に届くようにする
-export async function sendEmail({ to, subject, html, attachments, replyTo = CONTACT_EMAIL }: EmailParams) {
+export async function sendEmail({ to, subject, html, attachments, replyTo = CONTACT_EMAIL, from: fromOverride, bcc, text }: EmailParams) {
   const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.EMAIL_FROM || 'noreply@goodrelationship.net';
+  const from = fromOverride || `HITORIMO <${process.env.EMAIL_FROM || 'noreply@goodrelationship.net'}>`;
 
   if (!apiKey) {
     throw new Error('RESEND_API_KEY is not set');
@@ -31,7 +34,7 @@ export async function sendEmail({ to, subject, html, attachments, replyTo = CONT
       'Content-Type': 'application/json',
       Authorization: `Bearer ${apiKey}`,
     },
-    body: JSON.stringify({ from: `HITORIMO <${from}>`, to, subject, html, attachments, reply_to: replyTo }),
+    body: JSON.stringify({ from, to, subject, html, text, attachments, reply_to: replyTo, bcc }),
   });
 
   if (!response.ok) {
@@ -164,6 +167,22 @@ export async function sendReminderEmail(data: BookingEmailData, dayLabel: '明�
   `);
 
   return sendEmail({ to: data.email, subject: `[HITORIMO] ${dayLabel}の初回相談のご案内（${when}）`, html });
+}
+
+// 管理画面から、代表がお客様に送るメール。控えを管理者に BCC で残す
+export async function sendPersonalEmail({ to, subject, body }: { to: string; subject: string; body: string }) {
+  const html = `
+  <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #141414; line-height: 1.8;">
+    <p style="margin: 0; white-space: pre-wrap;">${escapeHtml(body)}</p>
+  </div>`;
+  return sendEmail({
+    from: `HITORIMO 小宮直樹 <${CONTACT_EMAIL}>`,
+    to,
+    subject,
+    html,
+    text: body,
+    bcc: process.env.ADMIN_EMAIL,
+  });
 }
 
 // 管理画面のログイン用リンク（管理者へ）

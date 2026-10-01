@@ -65,6 +65,20 @@ model AdminLoginToken {
   @@index([createdAt])
 }
 
+// 管理画面からお客様に送ったメールの履歴
+model SentEmail {
+  id        String   @id @default(cuid())
+  bookingId String?
+  inquiryId String?
+  toEmail   String
+  subject   String
+  body      String   @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([bookingId])
+  @@index([inquiryId])
+}
+
 // お問い合わせ（/contact から）
 model Inquiry {
   id              String   @id @default(cuid())
