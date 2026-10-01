@@ -65,6 +65,48 @@ model AdminLoginToken {
   @@index([createdAt])
 }
 
+// ホームページの「よくある質問」（管理画面から編集）
+model FaqItem {
+  id        String   @id @default(cuid())
+  category  String   // exec, biz, parent, edu, about
+  question  String
+  answer    String   @db.Text
+  order     Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([category, order])
+}
+
+// ホームページの「実績・お客様の声」（管理画面から編集）
+model RecordItem {
+  id        String   @id @default(cuid())
+  kind      String   // voice, change, activity
+  title     String
+  body      String   @db.Text
+  author    String?
+  order     Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([order])
+}
+
+// サイトの文章の変更履歴（変更前の状態を保存し、元に戻せるようにする）
+model ContentHistory {
+  id        String   @id @default(cuid())
+  entity    String   // faq, record
+  entityId  String
+  action    String   // update, delete, restore
+  summary   String
+  data      Json
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
 // 管理画面からお客様に送ったメールの履歴
 model SentEmail {
   id        String   @id @default(cuid())

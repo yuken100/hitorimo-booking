@@ -323,13 +323,18 @@ export default function AdminPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-8">
         <h1 className="text-2xl font-bold text-ink">
-          HITORI<span className="bg-accent">MO</span> 予約枠の管理
+          HITORI<span className="bg-accent">MO</span> 管理画面
         </h1>
-        <button onClick={handleLogout} className="text-sm underline text-muted">
-          ログアウト
-        </button>
+        <div className="flex items-center gap-4">
+          <a href="/admin/content" className="px-3 py-1 text-sm font-bold rounded border-2 border-ink bg-accent text-ink">
+            サイトの文章を編集
+          </a>
+          <button onClick={handleLogout} className="text-sm underline text-muted">
+            ログアウト
+          </button>
+        </div>
       </div>
 
       {message && (

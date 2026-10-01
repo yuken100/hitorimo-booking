@@ -461,6 +461,11 @@
   .slot-bar.short { width: 60%; }
   .slot-stamp { position: absolute; right: 18px; bottom: 16px; padding: 4px 14px; border: 3px solid var(--ink); border-radius: 10px; background: var(--accent); color: var(--on-accent); font-family: var(--hand); font-size: 1.2rem; transform: rotate(-8deg); }
   @media (min-width: 900px) { .slots { grid-template-columns: repeat(3, 1fr); } }
+  .rec { display: flex; flex-direction: column; gap: 10px; padding: 26px; border: 3px solid var(--ink); border-radius: 22px; background: var(--paper); box-shadow: 6px 6px 0 var(--ink); }
+  .rec-kind { align-self: flex-start; padding: 3px 12px; border-radius: 999px; background: var(--accent); color: var(--on-accent); font-size: 12px; font-weight: 700; }
+  .rec-t { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.5; }
+  .rec-b { margin: 0; white-space: pre-line; }
+  .rec-by { margin: auto 0 0; color: var(--muted); font-size: 14px; }
 
   /* ---------- Contact ---------- */
   .contact-box { padding: clamp(28px, 5vw, 64px); border: 3px solid var(--ink); border-radius: 30px; background: var(--accent); color: var(--on-accent); box-shadow: 12px 12px 0 var(--ink); }
@@ -489,11 +494,12 @@
   .faq-tab[aria-selected="true"] { background: var(--accent); color: var(--on-accent); box-shadow: 3px 3px 0 var(--ink); }
   .faq { max-width: 820px; margin-top: 24px; border-top: 3px solid var(--ink); }
   .faq details { border-bottom: 2px solid var(--ink); }
+  .faq-tab[hidden], #record[hidden] { display: none; }
   .faq summary { position: relative; padding: 20px 52px 20px 0; list-style: none; cursor: pointer; font-weight: 700; }
   .faq summary::-webkit-details-marker { display: none; }
   .faq summary::after { content: "+"; position: absolute; right: 4px; top: 50%; display: grid; place-items: center; width: 30px; height: 30px; margin-top: -15px; border: 2px solid var(--ink); border-radius: 50%; font-size: 18px; line-height: 1; transition: transform .3s; }
   .faq details[open] summary::after { transform: rotate(45deg); background: var(--accent); color: var(--on-accent); }
-  .faq details p { max-width: 42em; margin: 0 0 20px; color: var(--muted); }
+  .faq details p { max-width: 42em; margin: 0 0 20px; color: var(--muted); white-space: pre-line; }
 
   /* ---------- Footer (curtain reveal) ---------- */
   .f-curtain { position: relative; height: 100vh; height: 100svh; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
@@ -572,6 +578,7 @@
       <li><a href="#roadmap"><span class="num">05</span>これから</a></li>
       <li><a href="#founder"><span class="num">06</span>代表メッセージ</a></li>
       <li><a href="#services"><span class="num">07</span>サービス一覧</a></li>
+      <li id="toc-record" hidden><a href="#record"><span class="num"></span>実績・お客様の声</a></li>
       <li><a href="#contact"><span class="num">08</span>お問い合わせ</a></li>
       <li><a href="#faq"><span class="num">09</span>よくある質問</a></li>
     </ol>
@@ -1407,6 +1414,69 @@
       next.focus();
     });
   });
+
+  // ---------- Editable content: FAQ and records come from the admin screen ----------
+  // The FAQ written in this page stays as the fallback if loading fails
+  var RECORD_LABELS = { voice: '導入企業の声', change: '部下の変化', activity: '活動の記録' };
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function renderFaq(items) {
+    var firstVisible = null, selectedHidden = false;
+    tabs.forEach(function (tab) {
+      var panel = document.getElementById(tab.getAttribute('aria-controls'));
+      var cat = panel.id.replace('faq-', '');
+      var rows = items.filter(function (r) { return r.category === cat; });
+      panel.textContent = '';
+      rows.forEach(function (r) {
+        var d = el('details');
+        d.appendChild(el('summary', null, r.question));
+        d.appendChild(el('p', null, r.answer));
+        panel.appendChild(d);
+      });
+      tab.hidden = rows.length === 0;
+      if (rows.length && !firstVisible) firstVisible = tab;
+      if (!rows.length && tab.getAttribute('aria-selected') === 'true') selectedHidden = true;
+    });
+    if (selectedHidden && firstVisible) selectTab(firstVisible);
+  }
+  function renderRecords(items) {
+    var sec = document.getElementById('record');
+    var tocItem = document.getElementById('toc-record');
+    if (!items.length) { sec.hidden = true; tocItem.hidden = true; return; }
+    sec.querySelector('.big-h').textContent = '実績と、お客様の声';
+    sec.querySelector('.lede').textContent = 'HITORIMOとの出会いから生まれた変化を、ここに記録していきます。';
+    var grid = sec.querySelector('.slots');
+    grid.textContent = '';
+    items.forEach(function (r) {
+      var card = el('article', 'rec');
+      card.appendChild(el('span', 'rec-kind', RECORD_LABELS[r.kind] || ''));
+      card.appendChild(el('h3', 'rec-t', r.title));
+      card.appendChild(el('p', 'rec-b', r.body));
+      if (r.author) card.appendChild(el('p', 'rec-by', '— ' + r.author));
+      grid.appendChild(card);
+    });
+    sec.hidden = false;
+    tocItem.hidden = false;
+    // Renumber the table of contents now that the records entry is visible
+    var n = 0;
+    Array.prototype.forEach.call(document.querySelectorAll('.toc-list li'), function (li) {
+      if (li.hidden) return;
+      n++;
+      li.querySelector('.num').textContent = (n < 10 ? '0' : '') + n;
+    });
+  }
+  fetch('/api/site/content')
+    .then(function (res) { return res.ok ? res.json() : null; })
+    .then(function (data) {
+      if (!data) return;
+      if (data.faq && data.faq.length) renderFaq(data.faq);
+      renderRecords(data.records || []);
+    })
+    .catch(function () {});
 
   document.getElementById('to-top').addEventListener('click', function () {
     window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
