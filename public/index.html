@@ -152,6 +152,35 @@
   .pp-you { fill: var(--accent); stroke: var(--ink); stroke-width: 2; }
   .pp-lone { fill: var(--muted); }
   @media (min-width: 900px) { .play { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } }
+  .play-sub { margin: 12px 0 0; font-size: 14px; color: var(--muted); display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .snd {
+    display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px;
+    font: 700 13px/1 var(--body); color: var(--ink); background: var(--paper);
+    border: 2px solid var(--ink); border-radius: 999px; cursor: pointer;
+  }
+  .snd svg { width: 18px; height: 18px; }
+  .snd .snd-off { display: none; }
+  .snd[aria-pressed="false"] .snd-wave { display: none; }
+  .snd[aria-pressed="false"] .snd-off { display: inline; }
+  .play-stage { position: relative; }
+  .ms-card {
+    position: absolute; left: 50%; top: 50%; z-index: 2; width: min(88%, 400px); padding: 22px 24px;
+    text-align: center; color: var(--ink); background: var(--paper);
+    border: 3px solid var(--ink); border-radius: 22px; box-shadow: 8px 8px 0 var(--ink);
+    opacity: 0; transform: translate(-50%, -50%) scale(.6); pointer-events: none;
+    transition: transform .4s cubic-bezier(.2, 1.6, .4, 1), opacity .25s;
+  }
+  .ms-card.show { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
+  .ms-n { display: inline-block; padding: 3px 14px; border-radius: 999px; background: var(--accent); color: var(--on-accent); font: 900 14px/1.4 var(--latin); }
+  .ms-q { margin: 12px 0 0; font-family: var(--display); font-weight: 400; font-size: clamp(1.1rem, 2.4vw, 1.5rem); line-height: 1.5; text-wrap: balance; }
+  .ms-by { margin: 10px 0 0; font-size: 13px; color: var(--muted); }
+  .ms-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 16px; }
+  .ms-actions a, .ms-close {
+    padding: 8px 16px; font: 700 14px/1.2 var(--body); color: var(--on-accent); text-decoration: none;
+    background: var(--accent); border: 2px solid var(--ink); border-radius: 999px; cursor: pointer;
+  }
+  .ms-close { background: var(--paper); color: var(--ink); }
+  @media (prefers-reduced-motion: reduce) { .ms-card { transition: none; } }
 
   /* ---------- Chain of suffering (kept quiet) ---------- */
   .chain { margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); }
@@ -531,8 +560,15 @@
         <a class="join" id="join-full" href="#contact" data-cursor="話す" hidden>続きは、本物の輪で</a>
       </div>
       <p class="play-count" aria-live="polite">いま、輪の中に <b id="count">9</b> 人</p>
+      <p class="play-sub">10人ごとに、音と言葉が届きます。
+        <button class="snd" type="button" id="snd" aria-pressed="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path class="snd-wave" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/><path class="snd-off" d="M17 9l5 6M22 9l-5 6"/></svg>
+          <span id="snd-label">音：オン</span>
+        </button>
+      </p>
     </div>
     <div class="play-stage">
+      <div class="ms-card" id="ms-card" role="status" aria-live="polite" hidden></div>
       <svg id="ring" viewBox="0 0 600 600" role="img" aria-label="人の輪の図。押すと一人ずつ輪に加わります" data-cursor="押す">
         <defs><g id="pp"><circle cy="-8" r="7"/><path d="M-13 14Q-13 1 0 1Q13 1 13 14Z"/></g></defs>
         <circle class="ring-guide" cx="300" cy="300" r="110"/>
@@ -1079,6 +1115,104 @@
   }
   function loop(t) { draw(t); if (running) requestAnimationFrame(loop); }
 
+  // ---------- Milestones: every 10 people, a chime and a few words ----------
+  var MILESTONES = {
+    10: { q: '一人では見えなかった景色が、見えてきた。' },
+    20: { q: '三人寄れば文殊の知恵', by: 'ことわざ' },
+    30: { q: '誰ひとり、それだけで完結した島ではない。', by: 'ジョン・ダン（1624年）' },
+    40: { q: '支える人が増えるほど、支えられる人も増えていく。' },
+    50: { q: '和を以て貴しとなす', by: '聖徳太子「十七条憲法」（604年）' },
+    60: { q: '塵も積もれば山となる', by: 'ことわざ' },
+    70: { q: '私が遠くを見渡せたのは、巨人の肩の上に立っていたからだ。', by: 'アイザック・ニュートン（1675年の手紙）' },
+    80: { q: 'もう、誰も一人じゃない。' },
+    90: { q: '一人はみんなのために、みんなは一人のために', by: 'アレクサンドル・デュマ『三銃士』（1844年）' },
+    100: { q: '100人の輪ができました。誰一人として、置き去りにしない社会は、こうして始まります。', final: true }
+  };
+  // C major scale, one step higher every 10 people
+  var NOTES = [523.25, 587.33, 659.25, 698.46, 783.99, 880, 987.77, 1046.5, 1174.66];
+  var card = document.getElementById('ms-card');
+  var sndBtn = document.getElementById('snd');
+  var sndLabel = document.getElementById('snd-label');
+  var shown = {}, cardTimer = 0, audio = null, soundOn = true;
+  try { soundOn = localStorage.getItem('hitorimo-sound') !== 'off'; } catch (e) {}
+
+  function renderSound() {
+    sndBtn.setAttribute('aria-pressed', String(soundOn));
+    sndLabel.textContent = soundOn ? '音：オン' : '音：オフ';
+  }
+  renderSound();
+  sndBtn.addEventListener('click', function () {
+    soundOn = !soundOn;
+    renderSound();
+    try { localStorage.setItem('hitorimo-sound', soundOn ? 'on' : 'off'); } catch (e) {}
+  });
+
+  // Browsers only allow sound after a tap or click, so the audio context is woken up from those handlers
+  function wakeAudio() {
+    var Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!soundOn || !Ctx) return;
+    if (!audio) audio = new Ctx();
+    if (audio.state === 'suspended') audio.resume();
+  }
+  function tone(freq, at, dur, vol) {
+    var o = audio.createOscillator(), g = audio.createGain();
+    o.type = 'triangle';
+    o.frequency.value = freq;
+    g.gain.setValueAtTime(0.0001, at);
+    g.gain.exponentialRampToValueAtTime(vol, at + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, at + dur);
+    o.connect(g);
+    g.connect(audio.destination);
+    o.start(at);
+    o.stop(at + dur + 0.05);
+  }
+  function chime(n) {
+    if (!soundOn || !audio) return;
+    var t = audio.currentTime + 0.02;
+    if (n >= 100) {
+      [523.25, 659.25, 783.99, 1046.5].forEach(function (f, i) { tone(f, t + i * 0.12, 0.5, 0.18); });
+      [523.25, 659.25, 783.99, 1046.5].forEach(function (f) { tone(f, t + 0.55, 1.4, 0.12); });
+      return;
+    }
+    var f = NOTES[Math.min(NOTES.length - 1, n / 10 - 1)];
+    tone(f, t, 0.9, 0.22);
+    tone(f * 2, t + 0.06, 0.6, 0.06);
+  }
+
+  function hideCard() { card.classList.remove('show'); clearTimeout(cardTimer); cardTimer = setTimeout(function () { card.hidden = true; }, 400); }
+  function showCard(n) {
+    var m = MILESTONES[n];
+    clearTimeout(cardTimer);
+    card.innerHTML = '';
+    var badge = document.createElement('span');
+    badge.className = 'ms-n';
+    badge.textContent = n + '人';
+    var q = document.createElement('p');
+    q.className = 'ms-q';
+    q.textContent = m.q;
+    card.appendChild(badge);
+    card.appendChild(q);
+    if (m.by) {
+      var by = document.createElement('p');
+      by.className = 'ms-by';
+      by.textContent = '— ' + m.by;
+      card.appendChild(by);
+    }
+    if (m.final) {
+      var acts = document.createElement('div');
+      acts.className = 'ms-actions';
+      acts.innerHTML = '<a href="/booking">初回相談（無料）を予約する</a><a href="/contact">お問い合わせ</a><button type="button" class="ms-close">閉じる</button>';
+      acts.querySelector('.ms-close').addEventListener('click', hideCard);
+      card.appendChild(acts);
+    }
+    card.classList.remove('show');
+    card.hidden = false;
+    void card.offsetWidth; // apply the hidden state first so the pop-in transition always runs
+    card.classList.add('show');
+    if (!m.final) cardTimer = setTimeout(hideCard, 4800);
+  }
+  card.addEventListener('click', function (e) { if (!e.target.closest('a, button')) hideCard(); });
+
   function add(kind, from) {
     if (people.length >= MAX) return;
     var el = document.createElementNS(NS, 'use');
@@ -1088,6 +1222,13 @@
     people.push({ el: el, x: from[0], y: from[1], tx: 0, ty: 0, s: kind === 'seed' ? 1 : 0.3, kind: kind, ph: Math.random() * 6.283 });
     relayout();
     if (!running) draw(performance.now());
+    var n = people.length;
+    if (MILESTONES[n] && !shown[n] && kind !== 'seed') {
+      shown[n] = true;
+      showCard(n);
+      // Only a visitor's own tap makes a sound; the slow automatic arrivals stay quiet
+      if (kind === 'you') chime(n);
+    }
   }
 
   for (var i = 0; i < 9; i++) add('seed', [C, C]);
@@ -1102,8 +1243,9 @@
     }).observe(svg);
   }
 
-  joinBtn.addEventListener('click', function () { add('you', outside()); });
+  joinBtn.addEventListener('click', function () { wakeAudio(); add('you', outside()); });
   svg.addEventListener('click', function (e) {
+    wakeAudio();
     var m = svg.getScreenCTM();
     if (!m) { add('you', outside()); return; }
     var pt = svg.createSVGPoint();
@@ -1158,11 +1300,11 @@
   window.addEventListener('resize', roadMetrics);
 
   // ---------- "Join us" option: show the coming-soon note ----------
-  var joinBtn = document.getElementById('opt-join');
-  var joinNote = document.getElementById('option-note');
-  joinBtn.addEventListener('click', function () {
-    joinNote.hidden = !joinNote.hidden;
-    joinBtn.setAttribute('aria-expanded', String(!joinNote.hidden));
+  var optJoinBtn = document.getElementById('opt-join');
+  var optJoinNote = document.getElementById('option-note');
+  optJoinBtn.addEventListener('click', function () {
+    optJoinNote.hidden = !optJoinNote.hidden;
+    optJoinBtn.setAttribute('aria-expanded', String(!optJoinNote.hidden));
   });
 
   // ---------- FAQ audience tabs ----------
