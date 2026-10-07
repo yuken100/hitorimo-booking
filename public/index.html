@@ -215,6 +215,26 @@
   .ms-close { background: var(--paper); color: var(--ink); }
   @media (prefers-reduced-motion: reduce) { .ms-card { transition: none; } }
 
+  /* ---------- Start: who are you ---------- */
+  .start-grid { display: grid; gap: 24px; margin-top: 40px; }
+  .start-card { display: flex; flex-direction: column; gap: 14px; padding: 28px; border: 3px solid var(--ink); border-radius: 22px; background: var(--paper); box-shadow: 6px 6px 0 var(--ink); }
+  .start-for { align-self: flex-start; padding: 3px 12px; border: 2px solid var(--ink); border-radius: 999px; background: var(--accent); color: var(--on-accent); font-size: 12px; font-weight: 700; }
+  .start-voice { margin: 0; font-weight: 700; font-size: clamp(1.15rem, 1.9vw, 1.4rem); line-height: 1.75; }
+  .start-note { margin: 0; color: var(--muted); font-size: 14px; }
+  .start-label { margin: 6px 0 0; font-size: 13px; font-weight: 700; }
+  .start-steps { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; counter-reset: step; }
+  .start-steps li { position: relative; padding-left: 38px; counter-increment: step; }
+  .start-steps li::before { content: counter(step); position: absolute; left: 0; top: 1px; display: grid; place-items: center; width: 26px; height: 26px; border: 2px solid var(--ink); border-radius: 50%; background: var(--accent); color: var(--on-accent); font: 900 13px/1 var(--latin); }
+  .start-steps b { display: block; }
+  .start-steps span { color: var(--muted); font-size: 14px; }
+  .go { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 24px; border: 3px solid var(--ink); border-radius: 999px; background: var(--accent); color: var(--on-accent); font: inherit; font-weight: 700; text-align: center; text-decoration: none; box-shadow: 4px 4px 0 var(--ink); transition: transform .12s, box-shadow .12s; }
+  .go:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
+  .go:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--ink); }
+  .start-card .go { margin-top: auto; }
+  .start-foot { margin: 24px 0 0; color: var(--muted); }
+  .hero-cta { margin: 0; }
+  @media (min-width: 900px) { .start-grid { grid-template-columns: 1fr 1fr; } }
+
   /* ---------- Chain of suffering (kept quiet) ---------- */
   .chain { margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); }
   .chain-progress { display: none; max-width: 1100px; height: 10px; margin-top: 28px; overflow: hidden; border: 2px solid var(--ink); border-radius: 999px; }
@@ -596,6 +616,7 @@
       <span class="l3">社会を<span class="under">創る<svg class="scribble" viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M4 13C50 5 110 17 196 8"/></svg></span>。</span>
     </h1>
     <p class="tate">人を育てる人も、夢を追う人も、<br>一人にしない。</p>
+    <p class="hero-cta"><a class="go" href="#start" data-cursor="見る">無料で相談する</a></p>
     <div class="hero-foot">
       <p class="hero-note hand">
         <svg class="doodle" viewBox="0 0 64 56" aria-hidden="true"><path d="M60 50C36 50 16 36 10 8"/><path d="M3 16L10 6L19 14"/></svg>
@@ -611,6 +632,39 @@
         </svg>
       </button>
     </div>
+  </section>
+
+  <!-- ===== Start: who are you ===== -->
+  <section class="sec" id="start" aria-labelledby="start-h">
+    <p class="tag">はじめに <span>START</span></p>
+    <h2 class="big-h" id="start-h"><span class="ph">いま、誰のことで</span><span class="ph">悩んでいますか？</span></h2>
+    <p class="lede">当てはまるほうを選んでください。どちらも、行き先は同じです。</p>
+    <div class="start-grid">
+      <article class="start-card">
+        <span class="start-for">経営者の方へ</span>
+        <p class="start-voice">「部下が育たない。自分のやり方では、伝わらない。」</p>
+        <p class="start-note">結果を出してきた人ほど、部下が同じようにできない理由が分からず、一人で抱え込みます。</p>
+        <p class="start-label">進む順番</p>
+        <ol class="start-steps">
+          <li><b>営業人材育成コンサルティング</b><span>期間を決めて、集中的に</span></li>
+          <li><b>営業組織の顧問</b><span>継続して、そばで支える</span></li>
+          <li><b>理念構築ワークショップ</b><span>会社の軸を、言葉にする</span></li>
+        </ol>
+        <a class="go" href="/booking" data-cursor="予約">経営者として、無料で相談する</a>
+      </article>
+      <article class="start-card">
+        <span class="start-for">起業したい方・個人事業主の方へ</span>
+        <p class="start-voice">「想いはあるのに、商品にならない。売り方が分からない。」</p>
+        <p class="start-note">集客も営業も一人で抱えて、諦めかけていませんか。</p>
+        <p class="start-label">進む順番</p>
+        <ol class="start-steps">
+          <li><b>あなたの夢を叶える起業支援</b><span>商品設計・集客・導線づくり・セールス</span></li>
+          <li><b>営業が壁になったら</b><span>営業人材育成・顧問へ</span></li>
+        </ol>
+        <a class="go" href="/booking" data-cursor="予約">起業の相談を、無料でする</a>
+      </article>
+    </div>
+    <p class="start-foot">迷ったら、どちらでも大丈夫です。お話を聞いて、一緒に決めます。</p>
   </section>
 
   <!-- ===== Playground ===== -->
@@ -868,7 +922,7 @@
             <li><b>伴走プラン</b>：顧問として継続的に関わり、組織の変化に合わせて支えます</li>
           </ul>
           <p class="svc-price">料金：<b>お問い合わせください</b><br>どちらのプランが合うかは、初回相談でご提案します。</p>
-          <a class="svc-link" href="#contact" data-cursor="話す">このサービスについて相談する</a>
+          <a class="svc-link" href="/booking" data-cursor="予約">このサービスについて、無料で相談する</a>
         </div>
       </details>
       <details class="svc">
@@ -886,7 +940,7 @@
             <li><b>浸透させる</b>：社員に伝わり、行動につながる仕組みをつくる</li>
           </ul>
           <p class="svc-price">料金：<b>お問い合わせください</b></p>
-          <a class="svc-link" href="#contact" data-cursor="話す">このサービスについて相談する</a>
+          <a class="svc-link" href="/booking" data-cursor="予約">このサービスについて、無料で相談する</a>
         </div>
       </details>
       <details class="svc">
@@ -916,7 +970,7 @@
           </ul>
           <p class="svc-why"><b>泣き寝入りのお客様を、置き去りにしない。</b>声を上げられずに離れていったお客様の不満を拾い、企業との関係をもう一度つなぎ直します。リピートされる会社は、ターゲットにぴたりと合い、社会に必要とされている証拠です。それが、より良い社会への貢献につながります。</p>
           <p class="svc-price">料金：<b>お問い合わせください</b></p>
-          <a class="svc-link" href="#contact" data-cursor="話す">このサービスについて相談する</a>
+          <a class="svc-link" href="/booking" data-cursor="予約">このサービスについて、無料で相談する</a>
         </div>
       </details>
       <details class="svc">
@@ -935,7 +989,7 @@
             <li><b>セールス</b>：押し売りではなく、信頼で選ばれる売り方を身につける</li>
           </ul>
           <p class="svc-price">料金：<b>お問い合わせください</b></p>
-          <a class="svc-link" href="#contact" data-cursor="話す">このサービスについて相談する</a>
+          <a class="svc-link" href="/booking" data-cursor="予約">このサービスについて、無料で相談する</a>
         </div>
       </details>
       <details class="svc">
@@ -960,7 +1014,7 @@
             <li>指導する立場の方は、相手の限界を外す関わり方が身につく</li>
           </ul>
           <p class="svc-price">関わり方：1対1・グループ・1回のセミナーから選べます。<br>料金：<b>お問い合わせください</b></p>
-          <a class="svc-link" href="#contact" data-cursor="話す">このサービスについて相談する</a>
+          <a class="svc-link" href="/booking" data-cursor="予約">このサービスについて、無料で相談する</a>
         </div>
       </details>
       <details class="svc svc-ai">
@@ -987,7 +1041,7 @@
           </ul>
           <p class="svc-why"><b>AIを使える人と、使えない人。その差で、誰も置き去りにしない。</b>AIは、一部の人だけの道具ではありません。誰でも使える形にして、届けます。</p>
           <p class="svc-price">料金：<b>お問い合わせください</b></p>
-          <a class="svc-link" href="#contact" data-cursor="話す">このサービスについて相談する</a>
+          <a class="svc-link" href="/booking" data-cursor="予約">このサービスについて、無料で相談する</a>
         </div>
       </details>
     </div>
