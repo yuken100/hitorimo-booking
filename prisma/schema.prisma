@@ -107,6 +107,73 @@ model ContentHistory {
   @@index([createdAt])
 }
 
+// 受講生（管理画面で一人ずつ登録）
+model Student {
+  id          String    @id @default(cuid())
+  email       String    @unique
+  name        String
+  active      Boolean   @default(true)
+  lastLoginAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  loginTokens StudentLoginToken[]
+  sessions    StudentSession[]
+  progress    LessonProgress[]
+}
+
+// 受講生のメールログイン用リンク（トークンはハッシュだけを保存）
+model StudentLoginToken {
+  id        String    @id @default(cuid())
+  studentId String
+  student   Student   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([studentId, createdAt])
+}
+
+// 受講生のログイン状態（Cookieの値はハッシュだけを保存。管理画面から無効化できる）
+model StudentSession {
+  id        String   @id @default(cuid())
+  studentId String
+  student   Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  tokenHash String   @unique
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  @@index([studentId])
+}
+
+// 受講生向けのレッスン（カリキュラムの順番どおりに表示）
+model Lesson {
+  id        String   @id @default(cuid())
+  title     String
+  body      String   @db.Text
+  order     Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  progress  LessonProgress[]
+
+  @@index([order])
+}
+
+// 受講生がレッスンを完了にした記録
+model LessonProgress {
+  id          String   @id @default(cuid())
+  studentId   String
+  student     Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  lessonId    String
+  lesson      Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  completedAt DateTime @default(now())
+
+  @@unique([studentId, lessonId])
+}
+
 // 管理画面からお客様に送ったメールの履歴
 model SentEmail {
   id        String   @id @default(cuid())

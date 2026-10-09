@@ -199,6 +199,20 @@ export async function sendAdminLoginLinkEmail(url: string, adminEmail: string) {
   });
 }
 
+// 受講生ページのログイン用リンク（受講生へ）
+export async function sendStudentLoginLinkEmail(url: string, to: string, name: string) {
+  return sendEmail({
+    to,
+    subject: '[HITORIMO] 受講生ページのログイン用リンク',
+    html: layout(`
+      <h2 style="margin: 0 0 16px;">受講生ページへのログイン</h2>
+      <p>${escapeHtml(name)} さん、こんにちは。下のボタンを押すと、受講生ページにログインできます。このリンクは15分間、1回だけ使えます。</p>
+      ${button(url, '受講生ページにログインする')}
+      <p style="margin: 16px 0 0; font-size: 13px; color: #666;">このメールに心当たりがない場合は、何もせずに破棄してください。リンクを押さなければ、誰もログインできません。</p>
+    `),
+  });
+}
+
 interface InquiryEmailData {
   name: string;
   email: string;

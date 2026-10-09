@@ -331,6 +331,9 @@ export default function AdminPage() {
           <a href="/admin/content" className="px-3 py-1 text-sm font-bold rounded border-2 border-ink bg-accent text-ink">
             サイトの文章を編集
           </a>
+          <a href="/admin/students" className="px-3 py-1 text-sm font-bold rounded border-2 border-ink bg-accent text-ink">
+            受講生ページの管理
+          </a>
           <button onClick={handleLogout} className="text-sm underline text-muted">
             ログアウト
           </button>
