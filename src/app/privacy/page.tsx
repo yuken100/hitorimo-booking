@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 
 const CONTACT_EMAIL = 'info@goodrelationship.net';
 const ENACTED_ON = '2020年';
-const REVISED_ON = '2026年9月30日';
+const REVISED_ON = '2026年10月9日';
 
 const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
   <section className="mt-10 pt-5 border-t-2 border-ink">
@@ -34,6 +34,7 @@ export default function PrivacyPage() {
           <li>会社名・役職（任意でご入力いただいた場合）</li>
           <li>ご相談の内容、ご希望の日時</li>
           <li>メールなどでのやりとりの記録</li>
+          <li>受講生ページをご利用の方の、お名前、メールアドレス、レッスンの完了状況、最後にログインした日時</li>
           <li>予約時の通信元の情報（IPアドレスを、元に戻せない形に変換したもの）</li>
         </ul>
       </Section>
@@ -43,6 +44,7 @@ export default function PrivacyPage() {
         <ul className="list-disc pl-6 space-y-1">
           <li>ご相談・お問い合わせへの返信と、日程の調整のため</li>
           <li>サービスのご提供と、その前後のご連絡（予約の確認、前日のご案内など）のため</li>
+          <li>受講生ページへのログイン用リンクの送信と、学習の進み具合の確認、受講中のご案内のため</li>
           <li>いたずらや不正な予約を防ぐため</li>
           <li>サービスの改善や品質向上のための検討（個人が特定されない形で行います）</li>
           <li>法令に基づく対応のため</li>
