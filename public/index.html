@@ -603,6 +603,34 @@
 </style>
 </head>
 <body>
+<style>@import url("https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;700&display=swap");</style>
+<style>
+  /* ---------- New palette (navy / ivory / ochre, quiet buttons) ---------- */
+  html:root:root {
+    color-scheme: light;
+    --paper: #FCFBF8;
+    --ink: #0B1F6B;
+    --muted: #5B6482;
+    --soft: #F3ECDF;
+    --accent: #D8C6AE;
+    --on-accent: #0B1F6B;
+    --latin: "Shippori Mincho", "Yu Mincho", serif;
+    --hand: "Shippori Mincho", "Yu Mincho", serif;
+    --body: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", sans-serif;
+  }
+  body { background: var(--paper); }
+  .big-h, .letter-h, .f-name, .stop-t, .hero-h { font-family: var(--latin); font-weight: 500; letter-spacing: .03em; }
+  .go, .fbtn { background: #0F1838; color: #FCFBF8; border: 1px solid #FCFBF8; box-shadow: none; border-radius: 1px; letter-spacing: .12em; }
+  .go:hover, .fbtn:hover { transform: none; box-shadow: none; opacity: .88; }
+  /* dark areas: hero, free workshop, footer */
+  .hero, #work, .foot, .f-curtain { background: #0B1F6B; color: #FCFBF8; }
+  .hero .hero-h, .hero h1, #work .big-h, #work h2, .foot .foot-h { color: #FCFBF8; }
+  .hero .go, #work .go { background: #FCFBF8; color: #0B1F6B; border-color: #FCFBF8; }
+  .hero .hero-note, #work .lede, #work .tag { color: #D8C6AE; }
+  .foot-giant { color: rgba(252,251,248,.08); }
+</style>
+
+
 <div class="cursor" aria-hidden="true"><span></span></div>
 
 <div class="page">
@@ -668,7 +696,8 @@
     <h2 class="big-h" id="qs-h"><span class="ph">あなたの職場は、</span><span class="ph">どれに当てはまりますか？</span></h2>
     <ul class="qs-list">
         <li><span class="qs-q">なぜ、人材は定着しないのか？</span><a href="#work">チェックで確かめる</a></li>
-        <li><span class="qs-q">部下が育たないのは、本当に部下のせいでしょうか？</span><a href="#work">チェックで確かめる</a></li>
+        <li><span class="qs-q">部下が育たないのは、本当に部下の能力がないのでしょうか？</span><a href="#work">チェックで確かめる</a></li>
+        <li><span class="qs-q">あなたが、人材の能力、成長を阻害しているとしたら？</span><a href="#work">チェックで確かめる</a></li>
         <li><span class="qs-q">採用しても辞めてしまう会社には、何が起きているのでしょうか？</span><a href="#work">チェックで確かめる</a></li>
         <li><span class="qs-q">社長が一番正しいのに、チームが動かないのはなぜでしょう？</span><a href="#work">チェックで確かめる</a></li>
         <li><span class="qs-q">営業の「できる人」のやり方は、なぜ部下に伝わらないのでしょうか？</span><a href="#work">チェックで確かめる</a></li>
@@ -1237,7 +1266,8 @@
 (function () {
   var root = document.documentElement;
   (function () {
-    var qs = ["なぜ、人材は定着しないのか？","部下が育たないのは、本当に部下のせいでしょうか？","採用しても辞めてしまう会社には、何が起きているのでしょうか？","社長が一番正しいのに、チームが動かないのはなぜでしょう？","営業の「できる人」のやり方は、なぜ部下に伝わらないのでしょうか？","社長がいなくなったら、営業は回りますか？"];
+    var qs = ["なぜ、人材は定着しないのか？","部下が育たないのは、本当に部下の能力がないのでしょうか？",
+    "あなたが、人材の能力、成長を阻害しているとしたら？","採用しても辞めてしまう会社には、何が起きているのでしょうか？","社長が一番正しいのに、チームが動かないのはなぜでしょう？","営業の「できる人」のやり方は、なぜ部下に伝わらないのでしょうか？","社長がいなくなったら、営業は回りますか？"];
     var el = document.getElementById('q-text');
     if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var i = 0;
