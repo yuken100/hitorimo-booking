@@ -679,6 +679,34 @@
   }
   .hero .go:hover, #work .go:hover, .foot .fbtn:hover { background: #FFFFFF; color: #2B4FC0; }
   @media (prefers-reduced-motion: reduce) { .go, .fbtn { animation: none; } }
+  /* sand on buttons: a short sweep on hover, a small burst on press */
+  .go, .fbtn { position: relative; overflow: hidden; isolation: isolate; }
+  .go::before, .fbtn::before, .go::after, .fbtn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, #D8C6AE 1.1px, transparent 1.8px);
+    background-size: 7px 7px;
+    opacity: 0;
+  }
+  /* hover: grains sweep across once */
+  .go::before, .fbtn::before { transform: translateX(-100%); }
+  .go:hover::before, .fbtn:hover::before { animation: sand-sweep .7s ease-out 1; }
+  @keyframes sand-sweep {
+    0% { opacity: 0; transform: translateX(-100%); }
+    25% { opacity: .9; }
+    100% { opacity: 0; transform: translateX(100%); }
+  }
+  /* press: grains rise from the center and fade */
+  .go:active::after, .fbtn:active::after { animation: sand-burst .5s ease-out 1; }
+  @keyframes sand-burst {
+    0% { opacity: .9; transform: scale(.35); }
+    100% { opacity: 0; transform: scale(1.25); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .go::before, .fbtn::before, .go::after, .fbtn::after { animation: none !important; display: none; }
+  }
 </style>
 
 
