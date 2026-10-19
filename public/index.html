@@ -707,9 +707,12 @@
   @media (prefers-reduced-motion: reduce) {
     .go::before, .fbtn::before, .go::after, .fbtn::after { animation: none !important; display: none; }
   }
-  /* closing band for the founder message */
-  .founder .sign { display: block; margin: 56px 0 0; padding: 30px 36px; background: #1E40AF; color: #FCFBF8; font-family: var(--latin); font-size: clamp(18px, 2vw, 22px); line-height: 2; letter-spacing: .04em; border-left: 6px solid #E4522B; box-shadow: none; }
-  .founder .sign mark { background: none; color: inherit; }
+  /* closing lines: vertical, one line highlighted with a tan band */
+  .founder .sign { display: block; margin: 64px 0 0; font-family: var(--latin); font-size: clamp(20px, 2.2vw, 26px); line-height: 2.1; letter-spacing: .08em; color: var(--ink); }
+  .founder .sign mark { background: #D8C6AE; color: var(--ink); padding: .1em .04em; }
+  @media (min-width: 720px) {
+    .founder .sign { writing-mode: vertical-rl; margin: 0 0 0 auto; }
+  }
 </style>
 
 
@@ -998,7 +1001,7 @@
         <p>あの日、私は鶴見川のほとりで、ひとりで泣いていました。<br>見ず知らずの方に、涙ながらに話を聞いてもらいました。<br>心は、折れていました。「自分は、人を指導し、育てるには向いていない」。そう思い込んでいたのです。</p>
         <p>そこで気づいたのは、相手を変えようとしていたのは、自分だったということです。<br>相手の話を聞くことから、人は動き始める。その大切さを、私は学びました。</p>
         <p>いまは、その気づきを、経営者とリーダーの方と一緒に形にしています。</p>
-        <p class="sign" data-reveal>相手を変えようとしていたときは、何も変わりませんでした。<br>変えたのは自分でした。<br>変化は、そこから起こり始めました。</p>
+        <p class="sign" data-reveal>相手を変えようとしていたときは、何も変わりませんでした。<br><mark>変えたのは自分でした。</mark><br>変化は、そこから起こり始めました。</p>
       </div>
       <ul class="beliefs">
         <li><span class="belief-t">営業の仕組みと、人を育てる仕組みは、同じ原理で動いている。</span><span class="belief-d">相手を信じ、信頼が届く順番を守ること。トップ営業として学んだことは、そのまま人材育成に生きています。</span></li>
