@@ -707,11 +707,19 @@
   @media (prefers-reduced-motion: reduce) {
     .go::before, .fbtn::before, .go::after, .fbtn::after { animation: none !important; display: none; }
   }
-  /* closing lines: vertical, one line highlighted with a tan band */
-  .founder .sign { display: block; margin: 64px 0 0; font-family: var(--latin); font-size: clamp(20px, 2.2vw, 26px); line-height: 2.1; letter-spacing: .08em; color: var(--ink); }
-  .founder .sign mark { background: #D8C6AE; color: var(--ink); padding: .1em .04em; }
-  @media (min-width: 720px) {
-    .founder .sign { writing-mode: vertical-rl; margin: 0 0 0 auto; }
+  /* closing lines: horizontal, the tan band sweeps in from the left when the section appears */
+  .founder .sign { display: block; margin: 64px 0 0; font-family: var(--latin); font-size: clamp(20px, 2.2vw, 26px); line-height: 2.1; letter-spacing: .04em; color: var(--ink); }
+  .founder .sign mark {
+    background: linear-gradient(#D8C6AE, #D8C6AE) no-repeat left center / 0% 100%;
+    color: var(--ink);
+    padding: .05em .15em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    animation-name: marker;
+    animation-duration: 1.1s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+    animation-delay: .25s;
   }
 </style>
 
