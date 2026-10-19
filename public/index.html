@@ -633,11 +633,25 @@
   h1, h2, h3, .big-h, .hero-h, .letter-h, .stop-t, .card3-t, .f-name, .logo, .foot-h { font-weight: 500 !important; letter-spacing: .03em; }
   /* calm fonts */
   /* dark areas: hero, free workshop, footer */
-  .hero, #work, .foot, .f-curtain { background: #1A2540; color: #FCFBF8; }
+  .hero, #work, .foot, .f-curtain { background: #1E40AF; color: #FCFBF8; }
   .hero .hero-h, .hero h1, #work .big-h, #work h2, .foot .foot-h { color: #FCFBF8; }
-  .hero .go, #work .go { background: #FCFBF8; color: #1A2540; border-color: #FCFBF8; }
+
   .hero .hero-note, #work .lede, #work .tag { color: #D8C6AE; }
   .foot-giant { color: rgba(252,251,248,.08); }
+  /* palette B + animated buttons */
+  .go, .fbtn, .hero .go, #work .go {
+    background: linear-gradient(100deg, #1E40AF 0%, #E4522B 50%, #1E40AF 100%);
+    background-size: 200% 100%;
+    color: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, .7);
+    box-shadow: none;
+    animation: btn-shift 8s ease-in-out infinite alternate;
+    transition: transform .25s ease, opacity .25s ease;
+  }
+  @keyframes btn-shift { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
+  .go:hover, .fbtn:hover { transform: translateY(-2px); opacity: 1; }
+  .go:active, .fbtn:active { transform: translateY(1px); }
+  @media (prefers-reduced-motion: reduce) { .go, .fbtn, .hero .go, #work .go { animation: none; background: #1E40AF; } }
 </style>
 
 
