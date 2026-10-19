@@ -622,6 +622,14 @@
   .big-h, .letter-h, .f-name, .stop-t, .hero-h { font-family: var(--latin); font-weight: 500; letter-spacing: .03em; }
   .go, .fbtn { background: #0F1838; color: #FCFBF8; border: 1px solid #FCFBF8; box-shadow: none; border-radius: 1px; letter-spacing: .12em; }
   .go:hover, .fbtn:hover { transform: none; box-shadow: none; opacity: .88; }
+  /* calm fonts: serif for display and numbers, gothic for everything else */
+  html:root:root {
+    --display: "Shippori Mincho", "Yu Mincho", serif;
+    --latin: "Shippori Mincho", "Yu Mincho", serif;
+  }
+  .ai-prompt { font-family: var(--body) !important; }
+  h1, h2, h3, .big-h, .hero-h, .letter-h, .stop-t, .card3-t, .f-name, .logo, .foot-h { font-weight: 500 !important; letter-spacing: .03em; }
+  /* calm fonts */
   /* dark areas: hero, free workshop, footer */
   .hero, #work, .foot, .f-curtain { background: #0B1F6B; color: #FCFBF8; }
   .hero .hero-h, .hero h1, #work .big-h, #work h2, .foot .foot-h { color: #FCFBF8; }
