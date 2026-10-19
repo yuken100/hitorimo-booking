@@ -566,6 +566,11 @@
     .road::after, .stop-body, .heart, .svc-ai::after, .ai-cursor, .ai-spark { animation: none; }
     .aims li, .join, .nav .bar-cta, .svc, .svc-more::after, .opt, .fbtn, .vs-now li::after, .faq summary::after { transition: none; }
   }
+
+  /* ---------- Calm pass (direction A): no hand-drawn decoration, no shadows ---------- */
+  .doodle, .scribble, .tape, .tape-ink, .stamp { display: none !important; }
+  .hand { font-family: inherit !important; }
+  *, *::before, *::after { box-shadow: none !important; }
 </style>
 </head>
 <body>
