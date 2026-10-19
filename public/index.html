@@ -587,8 +587,11 @@
   .work-cta { margin: 36px 0 0; }
 
   /* ---------- Rotating questions ---------- */
-  .q-text { display: inline-block; transition: opacity .4s ease, transform .4s ease; }
-  .q-text.q-out { opacity: 0; transform: translateY(8px); }
+  .q-text { display: inline-block; }
+  .q-text.q-out { animation: q-out .5s ease forwards; }
+  .q-text.q-in { animation: q-in .9s cubic-bezier(.2, .7, .2, 1) both; }
+  @keyframes q-out { to { opacity: 0; transform: translateX(-70px); } }
+  @keyframes q-in { from { opacity: 0; transform: translateX(70px); } to { opacity: 1; transform: none; } }
   .hero-q { font-size: clamp(1.9rem, 4.2vw, 3.2rem); line-height: 1.4; min-height: 3.6em; }
   /* ---------- Question list ---------- */
   .qs-list { margin: 32px 0 0; padding: 0; list-style: none; display: grid; gap: 14px; }
@@ -726,6 +729,8 @@
   .beliefs li { padding: 26px 0 0; border: none; border-top: 1px solid var(--ochre); border-radius: 0; background: none; box-shadow: none; }
   .beliefs .belief-t { font-family: var(--latin); font-weight: 500; font-size: clamp(18px, 2vw, 22px); line-height: 1.8; color: var(--ink); }
   .beliefs .belief-d { margin-top: 10px; font-size: 14px; line-height: 1.9; }
+  /* moving band under the hero (shown again) */
+  .tape:not(.tape-ink) { display: block !important; transform: none; }
 </style>
 
 
@@ -787,6 +792,18 @@
       </button>
     </div>
   </section>
+
+  <!-- ===== Tape band ===== -->
+  <div class="tape" aria-hidden="true">
+    <div class="k-row"><div class="k-track">
+      <span class="k-group">見えない連鎖を、ほどく<i>✦</i>社長の手が離れても、営業が回る<i>✦</i>見えない連鎖を、ほどく<i>✦</i>社長の手が離れても、営業が回る<i>✦</i></span>
+      <span class="k-group">見えない連鎖を、ほどく<i>✦</i>社長の手が離れても、営業が回る<i>✦</i>見えない連鎖を、ほどく<i>✦</i>社長の手が離れても、営業が回る<i>✦</i></span>
+    </div></div>
+    <div class="k-row k-rev"><div class="k-track">
+      <span class="k-group k-outline">信頼から、組織は動き出す<i>✦</i>相手を変えるより、まず自分から<i>✦</i>信頼から、組織は動き出す<i>✦</i>相手を変えるより、まず自分から<i>✦</i></span>
+      <span class="k-group k-outline">信頼から、組織は動き出す<i>✦</i>相手を変えるより、まず自分から<i>✦</i>信頼から、組織は動き出す<i>✦</i>相手を変えるより、まず自分から<i>✦</i></span>
+    </div></div>
+  </div>
 
   <!-- ===== Questions ===== -->
   <section class="sec qs" aria-labelledby="qs-h">
@@ -884,18 +901,6 @@
       </article>
     </div>
   </section>
-
-  <!-- ===== Tape band ===== -->
-  <div class="tape" aria-hidden="true">
-    <div class="k-row"><div class="k-track">
-      <span class="k-group">誰一人として、置き去りにしない<i>✦</i>みんなで育てる<i>✦</i>誰一人として、置き去りにしない<i>✦</i>みんなで育てる<i>✦</i></span>
-      <span class="k-group">誰一人として、置き去りにしない<i>✦</i>みんなで育てる<i>✦</i>誰一人として、置き去りにしない<i>✦</i>みんなで育てる<i>✦</i></span>
-    </div></div>
-    <div class="k-row k-rev"><div class="k-track">
-      <span class="k-group k-outline">理解者がそばにいる<i>✦</i>居場所がある<i>✦</i>自分にもできる<i>✦</i>理解者がそばにいる<i>✦</i>居場所がある<i>✦</i>自分にもできる<i>✦</i></span>
-      <span class="k-group k-outline">理解者がそばにいる<i>✦</i>居場所がある<i>✦</i>自分にもできる<i>✦</i>理解者がそばにいる<i>✦</i>居場所がある<i>✦</i>自分にもできる<i>✦</i></span>
-    </div></div>
-  </div>
 
   <!-- ===== Philosophy ===== -->
   <section class="sec phil" id="philosophy" data-reveal>
@@ -1373,7 +1378,9 @@
         i = (i + 1) % qs.length;
         el.textContent = qs[i];
         el.classList.remove('q-out');
-      }, 400);
+        el.classList.add('q-in');
+        setTimeout(function () { el.classList.remove('q-in'); }, 950);
+      }, 500);
     }, 5000);
   })();
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
