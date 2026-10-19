@@ -596,6 +596,10 @@
   .qs-list li { display: flex; flex-direction: column; gap: 8px; padding: 20px 22px; border: 2px solid var(--ink); border-radius: 14px; background: var(--paper); }
   .qs-q { font-weight: 700; font-size: 1.1rem; line-height: 1.6; }
   .qs-list a { font-size: 14px; font-weight: 700; color: var(--ink); }
+
+  /* ---------- Quiet note under services ---------- */
+  .svc-note { margin: 28px 0 0; font-size: 14px; color: var(--muted); }
+  .svc-note a { color: var(--ink); }
 </style>
 </head>
 <body>
@@ -935,17 +939,16 @@
         <summary data-cursor="開く">
           <span class="svc-for">経営者の方へ</span>
           <span class="svc-t"><span class="ph">社長の手が離れても、</span><span class="ph">営業が回る組織をつくる</span></span>
-          <span class="svc-lead">部下が本音で話し、自ら動く営業チームへ。社長の「分身」となるリーダーを育てます。</span>
+          <span class="svc-lead">社長の手が離れても、営業が回るようになります。</span>
           <span class="svc-more"><span class="m-open">詳しく見る</span><span class="m-close">閉じる</span></span>
         </summary>
         <div class="svc-body">
-          <p class="svc-h">内容</p>
+          <p class="svc-h">得られること</p>
           <ul class="svc-list">
-            <li><b>課題の整理</b>：育成のどこでつまずいているのかを見極め、何から変えるかを決める</li>
-            <li><b>信頼関係づくり</b>：部下が本音で話し、自ら動くようになる関係の築き方</li>
-            <li><b>営業スキル</b>：トップ営業として結果を出してきた、実践の技術</li>
-            <li><b>分身の育成</b>：社長と同じ意識で考え、動けるリーダーを育てる</li>
-            <li><b>仕組みづくり</b>：社内で人が育ち続ける仕組みを残す</li>
+            <li>社長が現場に入らなくても、営業が回るようになる</li>
+            <li>部下が、自分から考えて動くようになる</li>
+            <li>採用した人が、辞めずに残るようになる</li>
+            <li>育成にかけたお金と時間が、無駄にならなくなる</li>
           </ul>
 <p class="svc-h">カリキュラム（1か月～・6つのステップ）</p>
 <ol class="svc-list">
@@ -960,7 +963,8 @@
           <a class="svc-link" href="/booking" data-cursor="予約">このサービスについて、無料で相談する</a>
         </div>
       </details>
-      <details class="svc">
+      <!-- moved out for now (mission):
+<details class="svc">
         <summary data-cursor="開く">
           <span class="svc-for">経営者の方へ</span>
           <span class="svc-t"><span class="ph">想いを言葉にする、</span><span class="ph">理念づくり</span></span>
@@ -978,7 +982,9 @@
           <a class="svc-link" href="/booking" data-cursor="予約">このサービスについて、無料で相談する</a>
         </div>
       </details>
-      <details class="svc">
+-->
+      <!-- moved out for now (repeat):
+<details class="svc">
         <summary data-cursor="開く">
           <span class="svc-for">経営者の方へ</span>
           <span class="svc-t">リピート率アップ</span>
@@ -1008,7 +1014,9 @@
           <a class="svc-link" href="/booking" data-cursor="予約">このサービスについて、無料で相談する</a>
         </div>
       </details>
-      <details class="svc">
+-->
+      <!-- moved out for now (startup):
+<details class="svc">
         <summary data-cursor="開く">
           <span class="svc-for biz">個人事業主・起業したい方へ</span>
           <span class="svc-t">あなたの夢を叶える起業支援</span>
@@ -1027,7 +1035,9 @@
           <a class="svc-link" href="/booking" data-cursor="予約">このサービスについて、無料で相談する</a>
         </div>
       </details>
-      <details class="svc">
+-->
+      <!-- moved out for now (athlete):
+<details class="svc">
         <summary data-cursor="開く">
           <span class="svc-for">経営者・アスリート・指導や教育に携わる方へ</span>
           <span class="svc-t"><span class="ph">自分で作る限界を、</span><span class="ph">突破する。</span></span>
@@ -1052,7 +1062,9 @@
           <a class="svc-link" href="/booking" data-cursor="予約">このサービスについて、無料で相談する</a>
         </div>
       </details>
-      <details class="svc svc-ai">
+-->
+      <!-- moved out for now (ai):
+<details class="svc svc-ai">
         <summary data-cursor="開く">
           <span class="ai-ghost" aria-hidden="true">AI</span>
           <span class="ai-copy">
@@ -1079,6 +1091,7 @@
           <a class="svc-link" href="/booking" data-cursor="予約">このサービスについて、無料で相談する</a>
         </div>
       </details>
+-->
     </div>
 
     <div class="gain">
@@ -1101,6 +1114,7 @@
         <li>親・先生・スポーツ指導者向けのプログラム</li>
       </ul>
     </div>
+      <p class="svc-note">ほかのご相談：<a href="/contact">起業のご相談</a>・<a href="/contact">AI事業について</a></p>
   </section>
 
   <!-- ===== Record ===== -->
