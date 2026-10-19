@@ -660,6 +660,25 @@
     outline: 1px solid rgba(255, 255, 255, .5);
     outline-offset: -7px;
   }
+  /* solid blue buttons (no motion); white buttons on blue areas */
+  .go, .fbtn {
+    background: #1E40AF;
+    color: #FFFFFF;
+    border: 1px solid #1E40AF;
+    outline: 1px solid rgba(255, 255, 255, .45);
+    outline-offset: -7px;
+    animation: none;
+    transition: background .3s ease, transform .25s ease;
+  }
+  .go:hover, .fbtn:hover { background: #2B4FC0; transform: translateY(-1px); opacity: 1; }
+  .go:active, .fbtn:active { transform: translateY(1px); }
+  .hero .go, #work .go, .foot .fbtn {
+    background: #FCFBF8;
+    color: #1E40AF;
+    border-color: #FCFBF8;
+  }
+  .hero .go:hover, #work .go:hover, .foot .fbtn:hover { background: #FFFFFF; color: #2B4FC0; }
+  @media (prefers-reduced-motion: reduce) { .go, .fbtn { animation: none; } }
 </style>
 
 
